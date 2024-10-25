@@ -12,7 +12,7 @@ specific assets required to render a website correctly.
 - [Usage](#run_app)
 - [Contributors](#contributors)
 
-### What is an open proxy server?
+## What is an open proxy server?
 A proxy server is a specific type of server application used to forward traffic between the web browser 
 and the actual destination server. In an open ***HTTP*** proxy server, the resources are managed by 
 independent clients and it is distributed, or not, according to their actions. 
@@ -22,11 +22,11 @@ independent clients and it is distributed, or not, according to their actions.
 The Proxy Eye application is intended for educational purposes, representing the ***HTTP*** messages in 
 their pure form, alongside all its specifications.
 
-### Project Construction Diagram 
+## Project Construction Diagram 
 
 ![Proxy Server Connections](Proxy\ Diagram.jpg)
 
-### Proxy Server Functionalities
+## Proxy Server Functionalities
 
 1. TCP Socket -> Packets from web browser are captured via a TCP socket 
 2. Registration of packets -> using a cache list data structure and a cache history list.
@@ -37,7 +37,7 @@ list and the ID of the packet in a cache history stack. When the flow is release
 the first node from the cache history list is retrieved from the actual cache data
 structure. 
 
-#### Implementation of CACHE 
+### Implementation of CACHE 
 Cache history list is a list based on FIFO principle that contains every new message 
 encountered. When a message needs to be returned, the cache history returns the first
 client ID which it will be search for in the cache hash table. The collision inside 
