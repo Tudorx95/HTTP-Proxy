@@ -47,9 +47,10 @@ the table are resolved using double-linked list for efficiency.
 These operations will syncronize multiple threads considering any message may operate
 in this area at any time.
 
-#### Security Concerns -> Data stored in the Cache must be protected from malicious
-actors. Every instance from the cache will be encrypted using AES encryption using
-CBC (cipher block chaining).
+[#### Security Concerns -> 
+Data stored in the Cache must be protected from malicious actors.
+Every instance from the cache will be encrypted using AES encryption using
+CBC (cipher block chaining).](url)
 
 4. Connecting to the GUI app -> using a TCP socket for managing connectivity between
 the main proxy server and the client side application. 
@@ -99,7 +100,7 @@ The message will be visualized according to its components, also in a single col
 - ***HTTP*** history - same interface as for intercept section, but, this time, when a user
 select a message, it will appear the corresponding request and response for it in the two
 columns.  
-Implementation: Python/C++/C# (in progress)
+Implementation: Python/C/C++/C# (in progress)
 ## Usage
 
 ## Contributors
