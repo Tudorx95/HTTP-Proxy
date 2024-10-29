@@ -71,8 +71,8 @@ detect the GUI environment necessities (if it needs more packets for rendering o
 If the environment variable for interception is off, then the proxy server will redirect the 
 message as usual to the destination server creating its own socket with the server and 
 transmitting the resource.
-If any packets are not required by the client app, then the child process thread will encrypt
-the message and store it in the cache management unit.
+If any packets are not required by the client app, then the child process thread will <!--encrypt
+the message and--> store it in the cache management unit.
 - Process for GUI Commands - 
 While those processes manages the request, another process is listening for commands from the
 GUI app. After receiving a specific command alongside the message argument, the process will
