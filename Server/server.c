@@ -20,9 +20,11 @@ void handle_client(int client_sock)
   {
     memset(message, '\0', sizeof(message));
     int bytes_received = recv(client_sock, message, sizeof(message) - 1, 0);
+
     if (bytes_received <= 0)
     {
-      DIE(bytes_received <= 0, "message error. Close connection!");
+      DIE(bytes_received < 0, "message error. Close connection!");
+      // else the client closed the connection
       break;
     }
     message[bytes_received] = '\0';         // Null-terminate the received data
@@ -30,5 +32,4 @@ void handle_client(int client_sock)
 
     // Optionally, process the request here or forward it to the intended server
   }
-  close(client_sock);
 }

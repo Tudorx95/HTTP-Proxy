@@ -31,14 +31,16 @@ void runConnection()
     DIE(listen(sockfd, BACKLOG) < 0, "listening error");
 
     // Accept incoming connection from the Web Browser
+    while (1)
+    {
+        client_size = sizeof(client_addr);
+        client_sock = accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&client_size);
+        DIE(client_sock < 0, "accept socket error");
 
-    client_size = sizeof(client_addr);
-    client_sock = accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&client_size);
-    DIE(client_sock < 0, "accept socket error");
+        handle_client(client_sock);
+        close(client_sock);
+    }
 
-    handle_client(client_sock);
-
-    close(client_sock);
     close(sockfd);
 }
 
