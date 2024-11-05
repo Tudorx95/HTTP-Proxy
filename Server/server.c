@@ -23,6 +23,7 @@ void handle_client(int client_sock)
 
     if (bytes_received <= 0)
     {
+      // printf("%d\n", bytes_received);
       DIE(bytes_received < 0, "message error. Close connection!");
       // else the client closed the connection
       break;
@@ -32,4 +33,5 @@ void handle_client(int client_sock)
 
     // Optionally, process the request here or forward it to the intended server
   }
+  close(client_sock);
 }

@@ -1,6 +1,16 @@
 #include "./Server/server.h"
 #include "./Cache/utils.h"
 #include "./Signal_Handlers/utils.h"
+#include <pthread.h>
+
+void *handle_client_thread(void *client_sock_ptr)
+{
+    int client_sock = *(int *)client_sock_ptr;
+    free(client_sock_ptr);
+    handle_client(client_sock);
+    close(client_sock);
+    return NULL;
+}
 
 void runConnection()
 {
@@ -36,9 +46,26 @@ void runConnection()
         client_size = sizeof(client_addr);
         client_sock = accept(sockfd, (struct sockaddr *)&server_addr, (socklen_t *)&client_size);
         DIE(client_sock < 0, "accept socket error");
+        // method I - separate threads
+        /*
+                int *client_socket = malloc(sizeof(int));
+                *client_socket = client_sock;
+                pthread_t thread_id;
+                pthread_create(&thread_id, NULL, handle_client_thread, client_socket);
+                // handle_client(client_sock);
+                pthread_detach(thread_id);
+                // close(client_sock);
+        */
 
-        handle_client(client_sock);
-        close(client_sock);
+        // method II - processes
+        int pid = fork();
+        if (pid == 0)
+        {
+            // handle the message
+            handle_client(client_sock);
+            // terminate the child process
+            exit(0);
+        }
     }
 
     close(sockfd);
