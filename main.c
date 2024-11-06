@@ -1,6 +1,7 @@
 #include "./Server/server.h"
 #include "./Cache/utils.h"
 #include "./Signal_Handlers/utils.h"
+#include "utils.h"
 #include <pthread.h>
 
 void *handle_client_thread(void *client_sock_ptr)
@@ -17,7 +18,7 @@ void runConnection()
     // initiate components
     int sockfd, client_sock, client_size;
     struct sockaddr_in server_addr, client_addr;
-    char message[CLIENT_LIMIT_MESS];
+    char message[CLIENT_LEN_MESS];
     memset(message, '\0', sizeof(message));
 
     // create the socket

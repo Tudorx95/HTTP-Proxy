@@ -17,4 +17,6 @@
         }                                 \
     } while (0)
 
+int determine_lines(char *message);
+
 #endif
