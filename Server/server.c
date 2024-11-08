@@ -32,7 +32,18 @@ void handle_client(int client_sock)
     }
     message[bytes_received] = '\0'; // Null-terminate the received data
     printf("%s\n", message);        // Print the HTTP request
-    void *http_message = HTTP_constructor(message);
+    //void *http_message = HTTP_constructor(message);
+
+    char *cached_response = retrieve_message(cache, message);
+      if (cached_response) {
+            printf("Cache HIT: Found message in cache for request: %s\n", message);
+            printf("Cached response: %s\n", cached_response);
+            free(cached_response);
+        } else {
+            printf("Cache MISS: Message not found in cache for request: %s\n", message);
+            store_message(cache, message, "Simulated response: This is the cached content for GET / HTTP/1.1");
+            printf("Stored new message in cache: %s\n", message);
+        }
     // Optionally, process the request here or forward it to the intended server
   }
   close(client_sock);

@@ -21,6 +21,8 @@ void runConnection()
     char message[CLIENT_LEN_MESS];
     memset(message, '\0', sizeof(message));
 
+    cache = create_cache();
+
     // create the socket
     sockfd = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     DIE(sockfd < 0, "socket error");
@@ -70,6 +72,7 @@ void runConnection()
     }
 
     close(sockfd);
+    free_cache(cache);
 }
 
 int main()
