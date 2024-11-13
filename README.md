@@ -146,7 +146,7 @@ For both HTTP and HTTPS requests, the server uses epoll to monitor multiple file
 ## GUI Functionalities
 
 GUI application will be divided into two main sections:
-<<<<<<< HEAD
+
 - intercept: this will have 3 buttons as follows:
     - intercept on/off - for turning on/off the user interaction with the proxy server
     - forward - to forward the packet to its destination (sever or source browser)
