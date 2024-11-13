@@ -5,12 +5,15 @@ servers. Users can interact behind the browser resources via a desktop applicati
 specific assets required to render a website correctly.
 
 ## Table of Contents
-- [What is an open proxy server?](#project_overview)
-- [Project Construction Diagram](#project_construction)
-- [Proxy Server Functionalities](#server_app)
-- [GUI Functionalities](#gui_app)
-- [Usage](#run_app)
-- [Contributors](#contributors)
+- [HTTP Proxy App (Proxy Eye)](#http-proxy-app-proxy-eye)
+  - [Table of Contents](#table-of-contents)
+  - [What is an open proxy server?](#what-is-an-open-proxy-server)
+  - [Project Construction Diagram](#project-construction-diagram)
+  - [Proxy Server Functionalities](#proxy-server-functionalities)
+    - [Internal functionalities](#internal-functionalities)
+  - [GUI Functionalities](#gui-functionalities)
+  - [Usage](#usage)
+  - [Contributors](#contributors)
 
 ## What is an open proxy server?
 A proxy server is a specific type of server application used to forward traffic between the web browser 
@@ -31,15 +34,13 @@ their pure form, alongside all its specifications.
 1. TCP Socket -> Packets from web browser are captured via a TCP socket 
 2. Processing requests -> The messages will be stored in a special data structure
 intended to mannage ***HTTP*** messages. 
-3. Register messages -> using a cache list data structure and a cache history list.
+3. Register messages -> using a cache list data structure.
 The data structure is necessarily for managing the packet flow from the listener to
 the GUI application. 
 When there are enough packets send, the server will store those messages in a cache
-list and the ID of the packet in a cache history stack. When the flow is released, 
-the first node from the cache history list is retrieved from the actual cache data
-structure. 
+list.
 
-### Implementation of CACHE Management Unit (CMU)
+<!--### Implementation of CACHE Management Unit (CMU)
 Cache history list is a list based on FIFO principle that contains every new message 
 encountered. When a message needs to be returned, the cache history returns the first
 client ID which it will be search for in the cache hash table. The collision inside 
@@ -94,12 +95,12 @@ GUI application will be divided into two main sections:
     - intercept on/off - for turning on/off the user interaction with the proxy server
     - forward - to forward the packet to its destination (sever or source browser)
     - drop - to drop the actual packet
-  The interface render a specific number of messages and when the user interactively tap
+  <!-- The interface render a specific number of messages and when the user interactively tap
 on a message, it will appear in the corresponding column as a request or response message.
 The message will be visualized according to its components, also in a single column.
 - ***HTTP*** history - same interface as for intercept section, but, this time, when a user
 select a message, it will appear the corresponding request and response for it in the two
-columns.  
+columns.   -->
 Implementation: Python/C/C++/C# (in progress)
 ## Usage
 

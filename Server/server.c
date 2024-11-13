@@ -1,7 +1,7 @@
 #include "server.h"
 #include "../Protocols/HTTP.h"
 #include "../utils.h"
-#include "../TerminalGUI/utils.h"
+//#include "../TerminalGUI/utils.h"
 #include "../Shared_Mem/utils.h"
 #include <pthread.h>
 

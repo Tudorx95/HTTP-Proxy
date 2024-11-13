@@ -3,7 +3,7 @@
 #include "./Signal_Handlers/utils.h"
 #include "utils.h"
 #include "./Shared_Mem/utils.h"
-#include "./TerminalGUI/utils.h"
+//#include "./TerminalGUI/utils.h"
 #include <pthread.h>
 
 // divide processes
