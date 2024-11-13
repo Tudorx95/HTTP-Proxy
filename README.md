@@ -172,7 +172,6 @@ Implementation: Python/C/C++/C# (in progress)
   columns.  
   Implementation: Python/C/C++/C# (in progress)
 
->>>>>>> 77cf785 (update readme)
 ## Usage
 
 ## Contributors
