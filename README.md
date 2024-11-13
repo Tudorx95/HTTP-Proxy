@@ -159,7 +159,7 @@ The message will be visualized according to its components, also in a single col
 select a message, it will appear the corresponding request and response for it in the two
 columns.
 -->
-
+<!--
 Implementation: Python/C/C++/C# (in progress)
 
 - intercept: this will have 3 buttons as follows: - intercept on/off - for turning on/off the user interaction with the proxy server - forward - to forward the packet to its destination (sever or source browser) - drop - to drop the actual packet
@@ -169,7 +169,7 @@ Implementation: Python/C/C++/C# (in progress)
 - **_HTTP_** history - same interface as for intercept section, but, this time, when a user
   select a message, it will appear the corresponding request and response for it in the two
   columns.  
-  Implementation: Python/C/C++/C# (in progress)
+  Implementation: Python/C/C++/C# (in progress)-->
 
 ## Usage
 
