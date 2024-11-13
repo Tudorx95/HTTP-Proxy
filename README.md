@@ -38,7 +38,7 @@ their pure form, alongside all its specifications.
 
 ## Project Construction Diagram
 
-![Proxy Server Connections](<Proxy\ Diagram.jpg>)
+![Proxy Server Connections](Images/Proxy%20Diagram.jpg)
 
 ## Proxy Server Functionalities
 
@@ -119,9 +119,9 @@ The proxy server uses multithreading to handle multiple client requests simultan
 Each client connection is managed in a separate thread, ensuring that multiple requests can be processed concurrently without blocking or delaying other requests.
 
 - Server Setup
-  The proxy server listens for incoming client connections on a specified port.
-  Upon accepting a new client connection, a new thread is created to handle that client.
-  Thread Creation:
+The proxy server listens for incoming client connections on a specified port.
+Upon accepting a new client connection, a new thread is created to handle that client.
+Thread Creation:
 
 The runConnection() function sets up the server, creating a socket, binding it, and listening for incoming client connections.
 For each accepted client connection, a new thread is created. This thread is responsible for handling the communication between the client and the proxy server, ensuring that each client is processed independently.
