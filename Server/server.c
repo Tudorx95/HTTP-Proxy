@@ -135,7 +135,7 @@ void handle_tunnel_with_EPOLL(int client_socket, int dest_socket)
 void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 {
   char host[1024];
-  int dest_port = 80; // Default HTTPS port
+  int dest_port = HTTP_PORT; // Default HTTP port
   char *url_start, *url_end, *port_str;
 
   // Extract destination host and path from the request
@@ -224,7 +224,7 @@ void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 void resolve_HTTPS(int client_socket, char *buffer)
 {
   char host[1024];
-  int dest_port = 443; // Default HTTPS port
+  int dest_port = HTTPS_PORT; // Default HTTPS port
   char *url_start, *url_end, *port_str;
   // Extract destination host and port from CONNECT request
   url_start = buffer + 8;

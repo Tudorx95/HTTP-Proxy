@@ -13,6 +13,8 @@
 #define STANDARD AF_INET
 #define PORT_BROWSER 8888
 #define PORT PORT_BROWSER
+#define HTTP_PORT 80
+#define HTTPS_PORT 443
 #define IP_SERVER_ADDRESS "127.0.0.1"
 #define BACKLOG 5
 #define MAX_EVENTS 2
