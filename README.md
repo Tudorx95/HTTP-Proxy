@@ -118,7 +118,7 @@ parent process.
 The proxy server uses multithreading to handle multiple client requests simultaneously, enabling it to act as an intermediary between the client and the destination server.
 Each client connection is managed in a separate thread, ensuring that multiple requests can be processed concurrently without blocking or delaying other requests.
 
-- Server Setup -
+- Server Setup
   The proxy server listens for incoming client connections on a specified port.
   Upon accepting a new client connection, a new thread is created to handle that client.
   Thread Creation:
@@ -126,13 +126,13 @@ Each client connection is managed in a separate thread, ensuring that multiple r
 The runConnection() function sets up the server, creating a socket, binding it, and listening for incoming client connections.
 For each accepted client connection, a new thread is created. This thread is responsible for handling the communication between the client and the proxy server, ensuring that each client is processed independently.
 
-- Request Handling: -
+- Request Handling
 
 The handle_client() function is the main function executed by each thread. It handles the HTTP or HTTPS request received from the client.
 If the request is an HTTP request, the server parses the request headers and forwards it to the appropriate destination server using the resolve_HTTP() function on port 80.
 If the request is an HTTPS request (determined by a CONNECT method), the server establishes a tunnel between the client and the destination server using the resolve_HTTPS() function on port 443. By using HTTPS, the communication between both parts continues in an encrypted manner.
 
-- Thread-Specific Functions -
+- Thread-Specific Functions
 
 For each client request, data is read, and the request is processed. Depending on whether the request is HTTP or HTTPS, the server uses the corresponding function to resolve the destination and handle communication with the target server.
 resolve_HTTP() and resolve_HTTPS() are the two key functions that manage the logic for HTTP and HTTPS requests.
@@ -140,7 +140,7 @@ resolve_HTTP() and resolve_HTTPS() are the two key functions that manage the log
 HTTP Requests: The server resolves the target IP, connects to the destination server on port 80, forwards the request, and relays the response back to the client.
 HTTPS Requests: For HTTPS, the server uses the CONNECT method to establish a tunnel to the destination server, allowing secure communication between the client and the server.
 
-- Connection Handling with EPOLL -
+- Connection Handling with EPOLL
 
 For both HTTP and HTTPS requests, the server uses epoll to monitor multiple file descriptors (sockets) simultaneously. This allows it to efficiently handle multiple connections, ensuring that the proxy server can forward data between the client and the destination server without blocking.
 
