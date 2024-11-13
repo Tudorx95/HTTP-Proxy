@@ -95,12 +95,15 @@ GUI application will be divided into two main sections:
     - intercept on/off - for turning on/off the user interaction with the proxy server
     - forward - to forward the packet to its destination (sever or source browser)
     - drop - to drop the actual packet
-  <!-- The interface render a specific number of messages and when the user interactively tap
+<!--
+The interface render a specific number of messages and when the user interactively tap
 on a message, it will appear in the corresponding column as a request or response message.
 The message will be visualized according to its components, also in a single column.
 - ***HTTP*** history - same interface as for intercept section, but, this time, when a user
 select a message, it will appear the corresponding request and response for it in the two
-columns.   -->
+columns.
+-->
+
 Implementation: Python/C/C++/C# (in progress)
 ## Usage
 
