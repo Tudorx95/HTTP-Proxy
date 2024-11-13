@@ -5,7 +5,7 @@ servers. Users can interact behind the browser resources via a desktop applicati
 specific assets required to render a website correctly.
 
 ## Table of Contents
-<<<<<<< HEAD
+
 - [HTTP Proxy App (Proxy Eye)](#http-proxy-app-proxy-eye)
   - [Table of Contents](#table-of-contents)
   - [What is an open proxy server?](#what-is-an-open-proxy-server)
@@ -15,7 +15,7 @@ specific assets required to render a website correctly.
   - [GUI Functionalities](#gui-functionalities)
   - [Usage](#usage)
   - [Contributors](#contributors)
-=======
+
 
 - [What is an open proxy server?](#project_overview)
 - [Project Construction Diagram](#project_construction)
@@ -23,7 +23,7 @@ specific assets required to render a website correctly.
 - [GUI Functionalities](#gui_app)
 - [Usage](#run_app)
 - [Contributors](#contributors)
->>>>>>> 77cf785 (update readme)
+
 
 ## What is an open proxy server?
 
@@ -162,7 +162,6 @@ columns.
 -->
 
 Implementation: Python/C/C++/C# (in progress)
-=======
 
 - intercept: this will have 3 buttons as follows: - intercept on/off - for turning on/off the user interaction with the proxy server - forward - to forward the packet to its destination (sever or source browser) - drop - to drop the actual packet
   The interface render a specific number of messages and when the user interactively tap
