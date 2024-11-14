@@ -39,7 +39,7 @@ their pure form, alongside all its specifications.
 
 ## Project Construction Diagram
 
-![Proxy Server Connections](<Proxy\ Diagram.jpg>)
+![Proxy Server Connections](Images/Proxy%20Diagram.jpg)
 
 ## Proxy Server Functionalities
 
