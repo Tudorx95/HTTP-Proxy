@@ -12,6 +12,7 @@ specific assets required to render a website correctly.
   - [Project Construction Diagram](#project-construction-diagram)
   - [Proxy Server Functionalities](#proxy-server-functionalities)
     - [Internal functionalities](#internal-functionalities)
+	- [OS Applied Concepts](#os-applied-concepts)
   - [GUI Functionalities](#gui-functionalities)
   - [Usage](#usage)
   - [Contributors](#contributors)
@@ -44,7 +45,7 @@ their pure form, alongside all its specifications.
 
 1. TCP Socket -> Packets from web browser are captured via a TCP socket
 2. Processing requests -> The messages will be stored in a special data structure
-<<<<<<< HEAD
+
 intended to mannage ***HTTP*** messages. 
 3. Register messages -> using a cache list data structure.
 The data structure is necessarily for managing the packet flow from the listener to
@@ -54,7 +55,7 @@ list.
 
 <!--### Implementation of CACHE Management Unit (CMU)
 Cache history list is a list based on FIFO principle that contains every new message 
-=======
+
    intended to mannage **_HTTP_** messages.
 3. Register messages -> using a cache list data structure and a cache history list.
    The data structure is necessarily for managing the packet flow from the listener to
@@ -67,7 +68,7 @@ Cache history list is a list based on FIFO principle that contains every new mes
 ### Implementation of CACHE Management Unit (CMU)
 
 Cache history list is a list based on FIFO principle that contains every new message
->>>>>>> 77cf785 (update readme)
+
 encountered. When a message needs to be returned, the cache history returns the first
 client ID which it will be search for in the cache hash table. The collision inside
 the table are resolved using double-linked list for efficiency.
@@ -142,6 +143,15 @@ HTTPS Requests: For HTTPS, the server uses the CONNECT method to establish a tun
 - Connection Handling with EPOLL
 
 For both HTTP and HTTPS requests, the server uses epoll to monitor multiple file descriptors (sockets) simultaneously. This allows it to efficiently handle multiple connections, ensuring that the proxy server can forward data between the client and the destination server without blocking.
+
+### OS Applied Concepts
+
+- Multiplexing 
+In a server application, multiple I/O operations must be executed to establish a contiguous flow of interaction with the app itself. Using the basic I/O operation would block the current thread until the operation finishes successfuly. In order to avoid busy-waiting operations (every File Descriptor to 
+be questioned about a possible event instance), a new ordered approach was introduced. The EPOLL system call is an efficient way of identifying an event
+in a specific set of File Descriptors. Although numerous system calls exists to determine the same result, the EPOLL syscall is primarly focusing on I/O 
+operations.
+
 
 ## GUI Functionalities
 
