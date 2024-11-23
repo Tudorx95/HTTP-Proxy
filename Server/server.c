@@ -15,7 +15,7 @@
 
 #define GUI_PORT 9999
 
-bool intercept_state = true;  // Interceptarea este activă implicit
+//bool intercept_state = true;  // Interceptarea este activa implicit
 
 
 struct sockaddr_in populate_socket(int standard, int port, const char *ip)
@@ -308,35 +308,34 @@ void resolve_HTTPS(int client_socket, char *buffer)
   close(client_socket);
 }
 
-void update_intercept_state() {
-    int fd = open("/tmp/proxy_state", O_RDONLY);  // Deschide pipe-ul de stare
-    if (fd < 0) {
-        perror("Failed to open state pipe");
-        return;
-    }
+// void update_intercept_state() {
+//     int fd = open("/tmp/proxy_state", O_RDONLY);  // Deschide pipe-ul de stare
+//     if (fd < 0) {
+//         perror("Failed to open state pipe");
+//         return;
+//     }
 
-    char buffer[16];
-    ssize_t bytes_read = read(fd, buffer, sizeof(buffer));  // Citește starea
-    close(fd);
+//     char buffer[16];
+//     ssize_t bytes_read = read(fd, buffer, sizeof(buffer));  // Citeste starea
+//     close(fd);
 
-    if (bytes_read < 0) {
-        perror("Error reading from state pipe");
-        return;
-    }
+//     if (bytes_read < 0) {
+//         perror("Error reading from state pipe");
+//         return;
+//     }
 
-    buffer[bytes_read] = '\0';  // Asigură-te că buffer-ul este corect terminat
+//     buffer[bytes_read] = '\0';  
 
-    // Verifică starea și actualizează intercept_state
-    if (strncmp(buffer, "ON", 2) == 0) {
-        intercept_state = true;
-        printf("Intercept state set to ON\n");
-    } else if (strncmp(buffer, "OFF", 3) == 0) {
-        intercept_state = false;
-        printf("Intercept state set to OFF\n");
-    } else {
-        printf("Invalid state received from pipe: %s\n", buffer);
-    }
-}
+//     if (strncmp(buffer, "ON", 2) == 0) {
+//         intercept_state = true;
+//         printf("Intercept state set to ON\n");
+//     } else if (strncmp(buffer, "OFF", 3) == 0) {
+//         intercept_state = false;
+//         printf("Intercept state set to OFF\n");
+//     } else {
+//         printf("Invalid state received from pipe: %s\n", buffer);
+//     }
+// }
 
 
 // receiver process should redirect the message
@@ -346,7 +345,6 @@ void handle_client(int client_socket)
   char buffer[BUFFER_SIZE];
     ssize_t bytes_read;
 
-    // Citește cererea de la client
     bytes_read = recv(client_socket, buffer, CLIENT_LEN_MESS - 1, 0);
     if (bytes_read < 0)
     {
@@ -354,14 +352,13 @@ void handle_client(int client_socket)
         close(client_socket);
         return;
     }
-    buffer[bytes_read] = '\0'; // Termină corect șirul de caractere
+    buffer[bytes_read] = '\0'; 
     printf("Received request:\n%s\n", buffer);
 
-    // Extrage informațiile relevante (ex. metoda și URL-ul)
     char method[16], url[256];
     sscanf(buffer, "%15s %255s", method, url);
 
-    // Trimite informațiile către GUI printr-un pipe
+    // Trimite informatiile catre GUI printr-un pipe
     int pipe_request_fd = open(PIPE_REQUEST, O_WRONLY);
     if (pipe_request_fd < 0)
     {
@@ -375,7 +372,6 @@ void handle_client(int client_socket)
     write(pipe_request_fd, gui_message, strlen(gui_message));
     close(pipe_request_fd);
 
-    // Așteaptă răspunsul GUI (Forward/Drop)
     int pipe_response_fd = open(PIPE_RESPONSE, O_RDONLY);
     if (pipe_response_fd < 0)
     {
@@ -388,7 +384,6 @@ void handle_client(int client_socket)
     read(pipe_response_fd, gui_response, sizeof(gui_response));
     close(pipe_response_fd);
 
-    // Verifică răspunsul GUI
     if (strncmp(gui_response, "DROP", 4) == 0)
     {
       printf("Request dropped by GUI\n");
@@ -403,14 +398,13 @@ void handle_client(int client_socket)
 
     printf("Request forwarded by GUI\n");
 
-    // Tratează cererile HTTP sau HTTPS
     if (strncmp(buffer, "CONNECT ", 8) == 0)
     {
-        resolve_HTTPS(client_socket, buffer); // Tratează cererea HTTPS
+        resolve_HTTPS(client_socket, buffer); 
     }
     else
     {
-        resolve_HTTP(client_socket, buffer, bytes_read); // Tratează cererea HTTP
+        resolve_HTTP(client_socket, buffer, bytes_read); 
     }
 } 
 
@@ -424,11 +418,10 @@ void send_to_gui(const char *message) {
     struct sockaddr_in gui_addr;
     memset(&gui_addr, 0, sizeof(gui_addr));
     gui_addr.sin_family = AF_INET;
-    gui_addr.sin_port = htons(GUI_PORT);  // Definește portul pentru GUI
-    inet_pton(AF_INET, "127.0.0.1", &gui_addr.sin_addr);  // Adresa IP locală
+    gui_addr.sin_port = htons(GUI_PORT);  
+    inet_pton(AF_INET, "127.0.0.1", &gui_addr.sin_addr);  
 
     if (connect(gui_socket, (struct sockaddr *)&gui_addr, sizeof(gui_addr)) == 0) {
-        // Trimite mesajul către GUI
         send(gui_socket, message, strlen(message), 0);
         printf("Sent message to GUI: %s\n", message);  // Log pentru verificare
         close(gui_socket);
@@ -444,14 +437,12 @@ void runConnection() {
     struct sockaddr_in server_addr, client_addr;
     socklen_t client_len = sizeof(client_addr);
 
-    // Creează socket-ul serverului
     server_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (server_socket < 0) {
         perror("Error creating server socket");
         exit(1);
     }
 
-    // Configurează adresa serverului
     memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
@@ -463,14 +454,12 @@ void runConnection() {
         exit(EXIT_FAILURE);
     }
 
-    // Leagă socket-ul serverului
     if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
         perror("Error binding server socket");
         close(server_socket);
         exit(1);
     }
 
-    // Ascultă pentru conexiuni
     if (listen(server_socket, 10) < 0) {
         perror("Error listening on server socket");
         close(server_socket);
@@ -479,9 +468,8 @@ void runConnection() {
 
     printf("Proxy server listening on port %d...\n", PORT);
 
-    // Acceptă și gestionează conexiunile de clienți
     while (1) {
-        update_intercept_state();  // Verifică și actualizează starea interceptării
+        //update_intercept_state();  
         client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_len);
         if (client_socket < 0) {
             perror("Error accepting client connection");
@@ -490,13 +478,13 @@ void runConnection() {
 
         printf("Accepted a client connection\n");
 
-        // Creează un thread pentru fiecare client
+        // Creeaza un thread pentru fiecare client
         pthread_t thread_id;
         if (pthread_create(&thread_id, NULL, (void *)handle_client, (void *)(intptr_t)client_socket) != 0) {
             perror("Error creating thread");
             close(client_socket);
         } else {
-            pthread_detach(thread_id);  // Auto-curățare după terminarea thread-ului
+            pthread_detach(thread_id);  // Auto-curatare dupa terminarea thread-ului
         }
     }
 

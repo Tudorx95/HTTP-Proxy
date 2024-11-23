@@ -62,7 +62,7 @@ class ProxyApp:
         self.log_message("Forward button pressed. Packet forwarded.")
 
     def drop_packet(self):
-        self.send_response("DROP")  # Instruiește proxy-ul să închidă conexiunea
+        self.send_response("DROP") 
         self.log_message("Drop button pressed. Connection closed.")
 
     def log_message(self, message):
@@ -84,13 +84,13 @@ class ProxyApp:
 
     def stop_proxy_server(self):
         if self.proxy_process:
-            self.proxy_process.terminate()  # Oprește procesul
-            self.proxy_process.wait()  # Așteaptă ca procesul să se termine complet
-            self.proxy_process = None  # Resetează variabila
+            self.proxy_process.terminate()  # Opreste procesul
+            self.proxy_process.wait()  # Așteapta ca procesul sa se termine complet
+            self.proxy_process = None  # Reseteaza variabila
             self.log_message("Proxy server stopped.")
             self.intercept_on_button.config(text="Intercept On")
 
-    # Thread ce citește continuu din PIPE_REQUEST cererile interceptate și le afișează în HTTP history
+    # Thread ce citeste continuu din PIPE_REQUEST cererile interceptate si le afiseaza in HTTP history
     def listen_to_requests(self):
         with open(PIPE_REQUEST, "r") as request_pipe:
             while True:
@@ -110,8 +110,8 @@ class ProxyApp:
 
     def on_close(self):
         if self.proxy_process:
-            self.stop_proxy_server()  # Asigură-te că procesul proxy este oprit
-        self.root.destroy()  # Închide fereastra GUI
+            self.stop_proxy_server()  
+        self.root.destroy()  
 
     def run_gui(self):
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
