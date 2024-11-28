@@ -1,0 +1,22 @@
+
+main:
+delegateTasks
+runConnection - similar to create_listening_socket (part until listen)
+initiate_Threadpool - create an epoll 
+                    - insert the listen sock 
+                    - create a fd for signal events 
+                    - insert that signal fd handler 
+                    - monitor pool using epoll_wait 
+
+Cases for epoll:
+- event[i].data.fd == listen_sock 
+    accept client connection 
+    set O_NONBLOCK flag to that fd 
+    add this fd to epoll 
+- event[i].data.fd == signal_fd 
+    read signalfd_siginfo struct 
+    verify the received signal 
+    handle signal (similar to signal_caught)
+
+- event[i].data.fd else case 
+    
