@@ -4,6 +4,20 @@ Proxy Eye is a C based application designed to manage all network traffic betwee
 servers. Users can interact behind the browser resources via a desktop application, giving insights about the
 specific assets required to render a website correctly.
 
+# Probleme legate de gestionarea conexiunilor HTTP
+Structura proiectului cu ThreadPool este urmatoarea:
+- in main se creeaza strcutura de ThreadPool (thread_pool_init)
+- tot in main se initializeaza descriptorul pentru monitorizarea FD. (epoll_create1)
+- in functie de clientul primit se accepta conexiunea cu acesta (runConnection), se primeste mesajul/cererea
+si in functie de protocolul din cerere (HTTP/HTTPS) se va adauga in coada de Task-uri o functie de gestiune
+specifica: resolve_HTTP, resolve_HTTPS, ambele fiind in directorul Server.
+Task-ul respectiv se adauga in ThreadPool (thread_pool_add_Task).
+- mentionez ca problema conexiunilor HTTPS a fost rezolvata.
+
+Probleme curente:
+- conexiunile HTTP nu sunt corect gestionate in functia resolve_HTTP din directorul Server.
+
+
 ## Table of Contents
 
 - [HTTP Proxy App (Proxy Eye)](#http-proxy-app-proxy-eye)
