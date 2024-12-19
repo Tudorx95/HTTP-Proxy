@@ -1,6 +1,7 @@
 #include "./utils.h"
 #include "../utils.h"
 #include "../Server/server.h"
+#include "../Thread/utils.h"
 int initiate_SigHandler()
 {
     // set the sigaction to encounter SIGINT states
@@ -44,6 +45,7 @@ void signal_caught(int sig)
         break;
     case SIGINT:
         printf("Signal %d caught!", sig);
+        thread_pool_exit(pool);
         exit(EXIT_FAILURE);
         break;
     case SIGTERM:

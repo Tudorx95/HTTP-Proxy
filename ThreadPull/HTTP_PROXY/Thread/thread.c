@@ -1,6 +1,8 @@
 #include "utils.h"
 #include "../utils.h"
 
+ThreadPool *pool = NULL;
+
 ThreadPool *thread_pool_init(int nb_threads)
 {
     int res;
@@ -103,7 +105,7 @@ void *thread_function(void *arg)
 
 void thread_pool_add_Task(ThreadPool *pool, void (*task)(void *), void *arg)
 {
-    pthread_mutex_lock(&(pool->mutex));
+    pthread_mutex_lock(&pool->mutex);
     // if the threadPool state is off or there are too many tasks
     if (!(pool->state))
     {
@@ -114,14 +116,13 @@ void thread_pool_add_Task(ThreadPool *pool, void (*task)(void *), void *arg)
     // identify the next task
     pool->tasks[pool->task_count].arg = arg;
     pool->tasks[pool->task_count].task = task;
-    // pool->task_count++; // increase the current last task
-    //  pool->task_end_index++;
+    pool->task_available++;
     pool->task_count = (pool->task_count + 1) % TASK_SIZE;
     printf("Add_Task: Task end_index: %d Task count: %d for thread_id: %ld\n", pool->task_end_index,
            pool->task_count, pthread_self());
 
-    pthread_cond_broadcast(&(pool->cond));
-    pthread_mutex_unlock(&(pool->mutex));
+    pthread_cond_broadcast(&pool->cond);
+    pthread_mutex_unlock(&pool->mutex);
 }
 
 void thread_pool_exit(ThreadPool *pool)

@@ -13,7 +13,7 @@ void delegateTasks()
     create_SHM();
     init_ready_fds_list();
     // initiate the threadPool
-    ThreadPool *pool;
+
     DIE((pool = thread_pool_init(MAX_THREADS)) == NULL, "Error creating the pool");
     if (!pool)
         return;
@@ -29,7 +29,7 @@ void delegateTasks()
         return;
     }
 
-    add_FD_Ready(0, epfd, "Epoll FD");
+    // add_FD_Ready(0, epfd, "Epoll FD");
 
     int listening_sock = initiate_connection();
     if (listening_sock == -1)
@@ -71,10 +71,9 @@ void delegateTasks()
                     perror("Error accepting connection");
                     continue;
                 }
-                set_NonBlock_flag(client_sock);
-                // Set socket to non-blocking mode
-                // read data here and add Task to the threadPool    !!!!
-                add_FD_Ready(1, client_sock, "Client_Sock");
+
+                //  read data here and add Task to the threadPool    !!!!
+                // add_FD_Ready(1, client_sock, "Client_Sock");
                 printf("Add client %d\n", client_sock);
                 memset(buff, '\0', BUFFER_SIZE);
                 readBytes = recv(client_sock, buff, BUFFER_SIZE - 1, 0);

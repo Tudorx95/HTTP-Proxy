@@ -1,0 +1,119 @@
+
+utils.h
+
+all libraries are here
+structs -> a ThreadPool struct for managing every new created thread
+	     components -> *threads, thread_count, Task*tasks, task_queue_size, task_queue_front, task_queue_rear, shutdown, mutex,
+	     (pthread_mutex_cond)done, (pthread_mutex_cond) cond
+	-> Task structure for functions and arguments of each thread; components: void(*function)(void*), void *arg
+	-> ClientRequest struct containing the client_socket(sockfd) and the request (*request)
+
+functions ->  setnonblocking -> for set the O_NONBLOCK property on a socket
+	      b64_encode -> for encoding the message
+	      b64_encode_size -> ^
+	      thread_pool_init -> initialize all threads
+	      thread_pool_function -> function used by every thread to execute all assign Tasks
+	      thread_pool_add_task -> use pthread_cond_signal (unblocks all threads currently blocked on the specified condition variable)
+	      thread_pool_shutdown -> signal all the waiting threads by using pthread_cond_broadcast; then for each thread detach it using pthread_detach
+	      receive_data -> equivalent of recv, but verifying error conditions
+	      send_data -> equivalent of send, but verifying error conditions
+
+
+Server.c
+Flow:
+
+initialize_blackList
+create_listening_socket
+
+epoll_create1
+epoll_ctl(epollfd, EPOLL_CTL_ADD, listen_sock, &ev)
+thread_pool_init
+
+int sockets_vector[50];
+epoll_ctl(epollfd, EPOLL_CTL_ADD, STDIN_FILENO, &ev)
+
+sigprocmask(SIG_SETMASK, NULL, &sigset);
+sigaddset(&sigset, SIGINT);
+sigprocmask(SIG_SETMASK, &sigset, NULL);
+
+sigemptyset(&sigset);
+sigaddset(&sigset, SIGINT);
+sfd = signalfd(-1, &sigset, 0); -> create a file descriptor for accepting signals;  If the fd argument is -1, then the call creates a new file descriptor and associates the signal set specified in mask with that file descriptor
+
+epoll_ctl(epollfd, EPOLL_CTL_ADD, sfd, &ev) -> add signal handler fd to poll
+
+while(1)
+nfds = epoll_wait(epollfd, events, MAX_EVENTS, -1);
+
+ for (int n = 0; n < nfds; ++n) {
+  // if the signal was on listen_sock
+  if (events[n].data.fd == listen_sock) {
+  accept ...
+  setnonblocking -> int flags = fcntl(sockfd, F_GETFL, 0); // return FD flags
+  		     fcntl(sockfd, F_SETFL, flags | O_NONBLOCK); // set the FD flags to the values specified
+  epoll_ctl(epollfd, EPOLL_CTL_ADD, conn_sock, &ev)
+  sockets_vector[conn_sock] = 1;
+
+  // if it was a signal socket handler
+  if  (events[n].data.fd == sfd)
+    read(sfd, &fdsi, sizeof(struct signalfd_siginfo))
+     if (s != sizeof(struct signalfd_siginfo)) {
+                    perror("read(signalfd)");
+     if (fdsi.ssi_signo == SIGINT)
+
+     // if the socket connection receives message
+   else
+	read_size= recv(events[n].data.fd, buffer, 2000, 0);
+	// if the client disconects 
+	if (read_size == 0)
+	thread_pool_add_task(pool, handle_disconnect, fdarg);
+	
+	// if it was an error receiving the message
+	else if (read_size == -1) {
+	  thread_pool_add_task(pool, handle_disconnect, fdarg);
+	// if the message exists, process it 
+	else {
+	 thread_pool_add_task(pool, handle_request, arg);
+
+
+Now describing the actual thread functions:
+
+handle_request -> print working thread
+	          parse_request -> extract method, hostname, path from the message
+		  verify_hostname -> verify the actual message in that blacklist
+		  create the filepath using dirpath; dirpath = "<client_sock>/", filepath = "<Method><Hostname><Host_Path>"
+		  access -> verify existing path; verify_path="<dirpath><encodedBase64(filepath)>"
+		  if file does not exist -> create it  (Modified Request)
+		  else ->
+		           if file does not exist -> create it
+		       	   // send message to the actual server 
+		           int targetSocket = socket(AF_INET, SOCK_STREAM, 0);
+			   connect(targetSocket, (struct sockaddr*)&targetAddr, sizeof(targetAddr));
+			   write(targetSocket, unmodified_message, strlen(unmodified_message))
+			   
+			   write_log(message) -> append the message in a log file
+
+			   create the file using fopen(verify_path, "wb");
+			   add NONBLOCK flag to the file
+			       int flags = fcntl(targetSocket, F_GETFL, 0);
+			       fcntl(targetSocket, F_SETFL, flags | O_NONBLOCK);
+
+			       receive message from targetSocket and write it to the specific file
+			       ssize_t read_size = recv(targetSocket, server_response, BUFFER_SIZE - 1, 0);
+			       writed_bytes = fwrite(server_response+writed_bytes, 1, total_saved, wfile)
+			       
+			   verify_cache(dirpath) -> here the Cache structure is actually a succesion of files in dirpath directory
+			   			    first determine the nb of files(file_count) in that directory alongside the oldest_file_time
+						    if(file_count > MAX_CACHE_SIZE) -> delete only the file with the oldest_file_time
+
+			    sending file to the client
+			      FILE *file = fopen(verify_path, "rb");
+			      verify_cache(dirpath);
+   			      bytesRead = fread(buffer, 1, file_size, file);
+			      send(client_sock, buffer, bytesRead, 0)
+			      
+
+handle_disconnect -> print the thread to be disconnected
+		     dirpath = "<socket_desc>/"
+		     remove the dirpath; first remove every file in that dir (remove), then remove the entire dir (rmdir)
+

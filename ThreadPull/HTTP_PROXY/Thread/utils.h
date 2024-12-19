@@ -25,6 +25,8 @@ typedef struct ThreadPool
     short int state; // 0 = off; 1 = on
 } ThreadPool;
 
+extern ThreadPool *pool;
+
 ThreadPool *thread_pool_init(int nb_threads);
 void thread_pool_add_Task(ThreadPool *pool, void (*task)(void *), void *arg);
 void thread_pool_exit(ThreadPool *pool);

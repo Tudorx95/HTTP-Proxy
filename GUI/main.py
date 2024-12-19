@@ -71,7 +71,7 @@ class ProxyApp:
 
     def start_proxy_server(self):
         self.proxy_process = subprocess.Popen(
-            ['/home/andreea/Desktop/HTTP-Proxy/my_program'],
+            ['/home/tudor/Documents/AnIII/PSO/HTTP-Proxy/my_program'],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )

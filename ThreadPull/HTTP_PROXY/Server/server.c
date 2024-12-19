@@ -64,78 +64,72 @@ void add_FD_Ready(int value, int fd, const char *name)
 void handle_tunnel_with_EPOLL(int client_socket, int dest_socket)
 {
   char buffer[BUFFER_SIZE];
-  ssize_t bytes_read;
-
-  // Initialize epoll
   int epoll_fd = epoll_create1(0);
   if (epoll_fd == -1)
   {
     perror("Error creating epoll instance");
-    close(dest_socket);
-    close(client_socket);
     return;
   }
 
-  // Add client_socket to epoll
-  struct epoll_event event;
-  event.events = EPOLLIN; // Monitor for input readiness
-  event.data.fd = client_socket;
-  if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_socket, &event) == -1)
+  // Set up epoll events with timeout
+  struct epoll_event events[2];
+  events[0].events = EPOLLIN | EPOLLET; // Edge-triggered
+  events[0].data.fd = client_socket;
+  events[1].events = EPOLLIN | EPOLLET;
+  events[1].data.fd = dest_socket;
+
+  if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, client_socket, &events[0]) == -1 ||
+      epoll_ctl(epoll_fd, EPOLL_CTL_ADD, dest_socket, &events[1]) == -1)
   {
-    perror("Error adding client socket to epoll");
     close(epoll_fd);
     return;
   }
 
-  // Add dest_socket to epoll
-  event.data.fd = dest_socket;
-  if (epoll_ctl(epoll_fd, EPOLL_CTL_ADD, dest_socket, &event) == -1)
-  {
-    perror("Error adding destination socket to epoll");
-    close(epoll_fd);
-    return;
-  }
-
-  struct epoll_event events[MAX_EVENTS];
-  int event_count, ready_fd, target_socket, i;
+  struct epoll_event triggered[2];
   while (1)
   {
-    event_count = epoll_wait(epoll_fd, events, MAX_EVENTS, -1);
-    if (event_count == -1)
+    int nfds = epoll_wait(epoll_fd, triggered, 2, 30000); // 30 second timeout
+    if (nfds == -1)
     {
-      perror("Error in epoll_wait");
+      if (errno == EINTR)
+        continue;
+      break;
+    }
+    if (nfds == 0)
+    { // Timeout occurred
+      printf("HTTPS tunnel timed out\n");
       break;
     }
 
-    // Process each ready socket
-    for (i = 0; i < event_count; i++)
+    for (int i = 0; i < nfds; i++)
     {
-      ready_fd = events[i].data.fd;
+      if (triggered[i].events & EPOLLIN)
+      {
+        int source_fd = triggered[i].data.fd;
+        int target_fd = (source_fd == client_socket) ? dest_socket : client_socket;
 
-      if (events[i].events & EPOLLIN)
-      { // Data is ready to be read
-        bytes_read = recv(ready_fd, buffer, BUFFER_SIZE, 0);
+        ssize_t bytes_read = recv(source_fd, buffer, BUFFER_SIZE, 0);
         if (bytes_read <= 0)
         {
-          // Connection closed or error
-          break;
+          if (errno != EAGAIN && errno != EWOULDBLOCK)
+          {
+            goto cleanup;
+          }
+          continue;
         }
 
-        // Forward data to the opposite socket
-        target_socket = (ready_fd == client_socket) ? dest_socket : client_socket;
-        if (send(target_socket, buffer, bytes_read, 0) < 0)
+        if (send(target_fd, buffer, bytes_read, MSG_NOSIGNAL) <= 0)
         {
-          perror("Error forwarding data");
-          break;
+          goto cleanup;
         }
       }
     }
   }
 
-  // Clean up
+cleanup:
   close(epoll_fd);
-  close(dest_socket);
   close(client_socket);
+  close(dest_socket);
 }
 
 void resolve_HTTP(Connection_Data *data)
@@ -192,7 +186,9 @@ void resolve_HTTP(Connection_Data *data)
     close(client_socket);
     exit(EXIT_FAILURE);
   }
-  // set_timeout_sock(dest_socket);
+  // Set sockets in non-blocking mode
+  set_NonBlock_flag(client_socket);
+  set_NonBlock_flag(dest_socket);
 
   // Configure destination server address
   struct sockaddr_in dest_addr;
@@ -204,42 +200,100 @@ void resolve_HTTP(Connection_Data *data)
   // Connect to the destination server
   if (connect(dest_socket, (struct sockaddr *)&dest_addr, sizeof(dest_addr)) < 0)
   {
-    perror("Error connecting to destination server");
-    close(dest_socket);
-    close(client_socket);
-    return;
+    if (errno != EINPROGRESS)
+    {
+      perror("Error connecting to destination server");
+      close(dest_socket);
+      close(client_socket);
+      return;
+    }
+    // Wait for the connection to complete
+    if (wait_for_connection(dest_socket, 5) < 0)
+    {
+      fprintf(stderr, "Connection to destination server timed out\n");
+      close(dest_socket);
+      close(client_socket);
+      return;
+    }
   }
-  // set_NonBlock_flag(dest_socket);
 
   printf("Connection to %d created!\n", dest_socket);
 
-  // set_NonBlock_flag(dest_socket);
-
-  int bytes_read = strlen(buffer);
-  // Forward client request to destination server
-  if (send(dest_socket, buffer, bytes_read, 0) < 0)
+  // Forward the initial request to the destination server
+  ssize_t bytes_sent = 0;
+  while ((size_t)bytes_sent < strlen(buffer))
   {
-    perror("Error forwarding request to destination server");
-    close(dest_socket);
-    close(client_socket);
-    return;
+    ssize_t res = send(dest_socket, buffer + bytes_sent, strlen(buffer) - bytes_sent, MSG_NOSIGNAL);
+    if (res < 0)
+    {
+      if (errno == EAGAIN || errno == EWOULDBLOCK)
+        continue;
+      perror("Error sending request to destination server");
+      close(dest_socket);
+      close(client_socket);
+      return;
+    }
+    bytes_sent += res;
   }
 
-  // Receive response from destination server and send it back to the client
-  while ((bytes_read = recv(dest_socket, buffer, BUFFER_SIZE, 0)) > 0)
+  // Use select() for timeout-based I/O
+  fd_set read_fds;
+  struct timeval timeout;
+  char recv_buffer[BUFFER_SIZE];
+  int max_fd = (dest_socket > client_socket ? dest_socket : client_socket) + 1;
+
+  while (1)
   {
-    if (send(client_socket, buffer, bytes_read, 0) < 0)
+    FD_ZERO(&read_fds);
+    FD_SET(dest_socket, &read_fds);
+    FD_SET(client_socket, &read_fds);
+
+    timeout.tv_sec = 30; // 30 second timeout
+    timeout.tv_usec = 0;
+
+    int ready = select(max_fd, &read_fds, NULL, NULL, &timeout);
+    if (ready < 0)
     {
-      perror("Error sending response to client");
+      if (errno == EINTR)
+        continue;
       break;
     }
+    if (ready == 0)
+    { // Timeout occurred
+      printf("HTTP connection timed out for thread %ld\n", pthread_self());
+      break;
+    }
+
+    if (FD_ISSET(dest_socket, &read_fds)) // if the destination socket is ready to read from the destination server
+    {
+      ssize_t bytes_read = recv(dest_socket, recv_buffer, BUFFER_SIZE, 0);
+      if (bytes_read <= 0)
+      {
+        if (errno != EAGAIN && errno != EWOULDBLOCK)
+          break;
+        continue;
+      }
+
+      ssize_t bytes_written = 0;
+      while (bytes_written < bytes_read)
+      {
+        ssize_t res = send(client_socket, recv_buffer + bytes_written, bytes_read - bytes_written, MSG_NOSIGNAL);
+        if (res < 0)
+        {
+          if (errno == EAGAIN || errno == EWOULDBLOCK)
+            continue;
+          break;
+        }
+        bytes_written += res;
+      }
+    }
   }
-  printf("Close connections for client_sock: %d\n", client_socket);
-  // Close sockets
+
+  printf("HTTP thread %ld finishing\n", pthread_self());
   close(dest_socket);
   close(client_socket);
-  printf("Finish HTTP: %ld\n", pthread_self());
 }
+
 void resolve_HTTPS(Connection_Data *data)
 {
   printf("Resolve HTTPS: %ld\n", pthread_self());
@@ -399,7 +453,7 @@ int runConnection(int server_socket)
     perror("Error accepting client connection");
     return -1;
   }
-  set_NonBlock_flag(client_socket);
+
   return client_socket;
 }
 

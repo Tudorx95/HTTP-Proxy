@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Project",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "-Wall",
+                "-Wextra",
+                "-g",
+                "-pthread",
+                "main.c",
+                "./Server/server.c",
+                "./Signal_Handlers/utils.c",
+                "./Protocols/HTTP.c",
+                "./utils.c",
+                "./Cache/cache.c",
+                "./Shared_Mem/Shm.c",
+                "./Thread/thread.c",
+                "-o",
+                "proxy"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Task to build the entire project"
+        },
+        {
+            "label": "Clean Project",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "main.o",
+                "./Server/server.o",
+                "./Signal_Handlers/utils.o",
+                "./Protocols/HTTP.o",
+                "./utils.o",
+                "./Cache/cache.o",
+                "./Shared_Mem/Shm.o",
+                "./Thread/thread.o",
+                "proxy"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}
