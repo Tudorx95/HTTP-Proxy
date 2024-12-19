@@ -16,7 +16,7 @@ Task-ul respectiv se adauga in ThreadPool (thread_pool_add_Task).
 
 Probleme curente:
 - conexiunile HTTP nu sunt corect gestionate in functia resolve_HTTP din directorul Server.
-
+- FD pentru handlerul de semnal nu capteaza semnalul SIGINT
 
 ## Table of Contents
 
