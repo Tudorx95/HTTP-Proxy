@@ -20,17 +20,6 @@ Probleme curente:
 
 ## Table of Contents
 
-- [HTTP Proxy App (Proxy Eye)](#http-proxy-app-proxy-eye)
-  - [Table of Contents](#table-of-contents)
-  - [What is an open proxy server?](#what-is-an-open-proxy-server)
-  - [Project Construction Diagram](#project-construction-diagram)
-  - [Proxy Server Functionalities](#proxy-server-functionalities)
-    - [Internal functionalities](#internal-functionalities)
-  - [GUI Functionalities](#gui-functionalities)
-  - [Usage](#usage)
-  - [Contributors](#contributors)
-
-
 - [What is an open proxy server?](#project_overview)
 - [Project Construction Diagram](#project_construction)
 - [Proxy Server Functionalities](#server_app)
