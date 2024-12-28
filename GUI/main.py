@@ -35,7 +35,7 @@ class ProxyApp:
         self.history_frame = tk.LabelFrame(self.root, text="HTTP History", padx=10, pady=10)
         self.history_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.http_history_listbox = tk.Listbox(self.history_frame, height=10, width=80)
+        self.http_history_listbox = tk.Listbox(self.history_frame, height=15, width=100)
         self.http_history_listbox.grid(row=0, column=0, padx=5, pady=5)
 
         self.scrollbar = tk.Scrollbar(self.history_frame)
@@ -46,10 +46,19 @@ class ProxyApp:
         self.log_frame = tk.LabelFrame(self.root, text="Log", padx=10, pady=10)
         self.log_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
 
-        self.log_text = tk.Text(self.log_frame, height=10, width=80)
+        self.log_text = tk.Text(self.log_frame, height=10, width=100)
         self.log_text.grid(row=0, column=0, padx=5, pady=5)
 
+        self.edit_frame = tk.LabelFrame(self.root, text="Edit Message", padx=10, pady=10)
+        self.edit_frame.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
+
+        self.edit_text = tk.Text(self.edit_frame, height=5, width=100)
+        self.edit_text.grid(row=0, column=0, padx=5, pady=5)
+
         self.proxy_process = None
+
+        # Bind pentru selectarea unui mesaj din history
+        self.http_history_listbox.bind("<<ListboxSelect>>", self.load_selected_message)
 
     def toggle_intercept(self):
         if self.proxy_process is None:
@@ -58,8 +67,13 @@ class ProxyApp:
             self.stop_proxy_server()
 
     def forward_packet(self):
-        self.send_response("FORWARD")
-        self.log_message("Forward button pressed. Packet forwarded.")
+        # Obține mesajul editat din câmpul de editare
+        edited_message = self.edit_text.get(1.0, tk.END).strip()
+        if edited_message:
+            self.send_response(edited_message)  # Trimite mesajul editat
+            self.log_message(f"Forwarded edited message:\n{edited_message}")
+        else:
+            self.log_message("No message to forward.")
 
     def drop_packet(self):
         self.send_response("DROP") 
@@ -68,6 +82,22 @@ class ProxyApp:
     def log_message(self, message):
         self.log_text.insert(tk.END, message + "\n")
         self.log_text.yview(tk.END)
+
+    def history_message(self, message):
+        lines = message.splitlines()  # Împarte mesajul în linii
+        for line in lines:
+            self.http_history_listbox.insert(tk.END, line)  # Adaugă fiecare linie în Listbox
+        self.http_history_listbox.yview(tk.END)  # Derulează la final
+
+    def load_selected_message(self, event):
+        try:
+            selected_index = self.http_history_listbox.curselection()
+            if selected_index:
+                message = self.http_history_listbox.get(selected_index)
+                self.edit_text.delete(1.0, tk.END)  # Șterge textul existent
+                self.edit_text.insert(tk.END, message)  # Inserează mesajul selectat
+        except Exception as e:
+            self.log_message(f"Error loading selected message: {e}")
 
     def start_proxy_server(self):
         self.proxy_process = subprocess.Popen(
@@ -90,14 +120,14 @@ class ProxyApp:
             self.log_message("Proxy server stopped.")
             self.intercept_on_button.config(text="Intercept On")
 
-    # Thread ce citeste continuu din PIPE_REQUEST cererile interceptate si le afiseaza in HTTP history
     def listen_to_requests(self):
         with open(PIPE_REQUEST, "r") as request_pipe:
             while True:
-                request = request_pipe.readline()
+                request = request_pipe.read()  # Citește mesajul complet din pipe
                 if request:
-                    self.http_history_listbox.insert(tk.END, request)
+                    # Loghează și adaugă exact același mesaj în history
                     self.log_message(f"Intercepted Request:\n{request}")
+                    self.history_message(f"Intercepted Request:\n{request}")
 
     def send_response(self, response):
         try:
@@ -120,4 +150,4 @@ class ProxyApp:
 if __name__ == "__main__":
     root = tk.Tk()
     app = ProxyApp(root)
-    app.run_gui()  
+    app.run_gui()

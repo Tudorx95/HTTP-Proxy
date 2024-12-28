@@ -147,6 +147,14 @@ void handle_tunnel_with_EPOLL(int client_socket, int dest_socket)
 
 void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 {
+
+  if (client_socket < 0 || buffer == NULL || bytes_read <= 0)
+  {
+    printf("Invalid request detected. Closing connection.\n");
+    close(client_socket);
+    return;
+  }
+
   char host[1024];
   int dest_port = HTTP_PORT; // Default HTTP port
   char *url_start, *url_end, *port_str;
@@ -236,6 +244,7 @@ void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 }
 void resolve_HTTPS(int client_socket, char *buffer)
 {
+
   char host[1024];
   int dest_port = HTTPS_PORT; // Default HTTPS port
   char *url_start, *url_end, *port_str;
@@ -367,9 +376,9 @@ void handle_client(int client_socket)
         return;
     }
 
-    char gui_message[512];
-    snprintf(gui_message, sizeof(gui_message), "METHOD: %s\nURL: %s\n", method, url);
-    write(pipe_request_fd, gui_message, strlen(gui_message));
+    // char gui_message[512];
+    // snprintf(gui_message, sizeof(gui_message), "METHOD: %s\nURL: %s\n", method, url);
+    write(pipe_request_fd, buffer, strlen(buffer)); 
     close(pipe_request_fd);
 
     int pipe_response_fd = open(PIPE_RESPONSE, O_RDONLY);
@@ -383,14 +392,21 @@ void handle_client(int client_socket)
     char gui_response[32];
     read(pipe_response_fd, gui_response, sizeof(gui_response));
     close(pipe_response_fd);
-
-    if (strncmp(gui_response, "DROP", 4) == 0)
+ 
+    if (strncmp(gui_response, "DROP", 4) == 0 && strlen(gui_response) >= 4)
     {
       printf("Request dropped by GUI\n");
       const char *error_response = "HTTP/1.1 403 Forbidden\r\n"
                                  "Content-Length: 0\r\n"
                                  "Connection: close\r\n\r\n";
       send(client_socket, error_response, strlen(error_response), 0);
+
+       // Flush socket buffer
+      char temp[512];
+      while (recv(client_socket, temp, sizeof(temp) - 1, MSG_DONTWAIT) > 0)
+        ;
+
+      shutdown(client_socket, SHUT_RDWR);
       close(client_socket);
       return;
     }
