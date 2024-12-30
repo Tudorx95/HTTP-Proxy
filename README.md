@@ -109,15 +109,18 @@ parent process.
   Child processes, derived from the process above, will decide as the Child Process Handling wether
   or not to transmit the information or not. -->
 
-The proxy server uses multithreading to handle multiple client requests simultaneously, enabling it to act as an intermediary between the client and the destination server.
-Each client connection is managed in a separate thread, ensuring that multiple requests can be processed concurrently without blocking or delaying other requests.
+The proxy server uses multithreading to handle multiple client requests simultaneously, 
+enabling it to act as an intermediary between the client and the destination server.
+Each client connection is managed in a separate thread, ensuring that multiple requests 
+can be processed concurrently without blocking or delaying other requests.
 
 - Server Setup
 
 The proxy server listens for incoming client connections on a specified port.
 Upon accepting a new client connection, a new thread is created to handle that client.
 The runConnection() function sets up the server, creating a socket, binding it, and listening for incoming client connections.
-For each accepted client connection, a new thread is created. This thread is responsible for handling the communication between the client and the proxy server, ensuring that each client is processed independently.
+For each accepted client connection, a new thread is created. This thread is responsible for handling the communication 
+between the client and the proxy server, ensuring that each client is processed independently.
 
 - Request Handling
 
@@ -140,7 +143,8 @@ For both HTTP and HTTPS requests, the server uses epoll to monitor multiple file
 ### OS Applied Concepts
 
 - Multiplexing
-  In a server application, multiple I/O operations must be executed to establish a contiguous flow of interaction with the app itself. Using the basic I/O operation would block the current thread until the operation finishes successfuly. In order to avoid busy-waiting operations (every File Descriptor to
+  In a server application, multiple I/O operations must be executed to establish a contiguous flow of interaction with the app itself. Using the basic
+  I/O operation would block the current thread until the operation finishes successfuly. In order to avoid busy-waiting operations (every File Descriptor to
   be questioned about a possible event instance), a new ordered approach was introduced. The EPOLL system call is an efficient way of identifying an event
   in a specific set of File Descriptors. Although numerous system calls exists to determine the same result, the EPOLL syscall is primarly focusing on I/O
   operations.
