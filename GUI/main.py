@@ -42,7 +42,20 @@ class ProxyApp:
         #self.setup_blacklist_tab()
         self.setup_history_tab()
 
-        self.proxy_process = None
+        # Bind tab change event
+        self.notebook.bind("<<NotebookTabChanged>>", self.on_tab_changed)
+
+        # Intercept Button State
+        self.intercept_enabled = False
+        # Server must start at the beggining
+        self.start_proxy_server()
+        
+
+    def on_tab_changed(self, event):
+        """Handle tab change events."""
+        selected_tab = event.widget.tab(event.widget.index("current"))["text"]
+        if selected_tab == "History":
+            self.load_history()
 
     def setup_proxy_tab(self):
         """Setup the Proxy tab layout and functionality."""
@@ -66,6 +79,8 @@ class ProxyApp:
         self.request_listbox = tk.Listbox(self.request_list_frame, height=15, width=80)
         self.request_listbox.pack(side=tk.LEFT, padx=5, pady=5, fill=tk.BOTH, expand=True)
 
+        self.full_requests={}
+
         self.request_scrollbar = tk.Scrollbar(self.request_list_frame)
         self.request_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.request_listbox.config(yscrollcommand=self.request_scrollbar.set)
@@ -88,45 +103,31 @@ class ProxyApp:
         self.log_text = tk.Text(self.log_frame, height=10, wrap=tk.WORD)
         self.log_text.pack(fill=tk.BOTH, padx=5, pady=5)
 
-    def setup_blacklist_tab(self):
-        """Setup the Blacklist tab layout and functionality."""
-        self.blacklist_text = tk.Text(self.blacklist_tab, wrap=tk.WORD)
-        self.blacklist_text.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
-
-        # Load blacklist content from server
-        self.load_blacklist()
-
     def setup_history_tab(self):
         """Setup the History tab layout and functionality."""
         self.history_text = tk.Text(self.history_tab, wrap=tk.WORD)
         self.history_text.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
 
         # Load history content from server
-        self.load_history()
+        #self.load_history()
 
     def load_full_message(self, event):
         """Load full message for the selected request."""
         try:
             selected_index = self.request_listbox.curselection()
             if selected_index:
-                message = self.request_listbox.get(selected_index)
+                display_message_key = self.request_listbox.get(selected_index)
+                full_message = self.full_requests.get(display_message_key, "Full message not found.")
                 self.message_text.delete(1.0, tk.END)
-                self.message_text.insert(tk.END, f"Full message:\n{message}")
+                self.message_text.insert(tk.END, full_message)
 
         except Exception as e:
             self.log_message(f"Error loading message: {e}")
 
-    def load_blacklist(self):
-        """Load the blacklist file content."""
-        try:
-            with open("/path/to/blacklist.txt", "r") as file:
-                self.blacklist_text.insert(tk.END, file.read())
-        except Exception as e:
-            self.log_message(f"Error loading blacklist: {e}")
-
     def load_history(self):
         """Load the history file content."""
         try:
+            self.history_text.delete(1.0, tk.END)
             with open(HISTORY_PATH, "r") as file:
                 self.history_text.insert(tk.END, file.read())
         except Exception as e:
@@ -134,26 +135,51 @@ class ProxyApp:
 
 
     def toggle_intercept(self):
-        if self.proxy_process is None:
-            self.start_proxy_server()
+        """Toggles the intercept state."""
+        self.intercept_enabled = not self.intercept_enabled
+        self.intercept_button.config(text="Intercept")
+        if self.intercept_enabled:
+            self.intercept_button.config(text="Intercept Off")
+            
         else:
-            self.stop_proxy_server()
+            self.intercept_button.config(text="Intercept On")
+            self.clear_boxes()
+    
+    def clear_boxes(self):
+        """Clear the request listbox, message box, and log text."""
+        self.request_listbox.delete(0, tk.END)  # Clear the request listbox
+        self.message_text.delete(1.0, tk.END)  # Clear the full message box
+        self.log_text.delete(1.0, tk.END)  # Clear the log text
 
     def forward_packet(self):
-        """Forward selected request."""
-        selected_message = self.message_text.get(1.0, tk.END).strip()
-        if selected_message:
-            self.send_response(selected_message)
-            self.log_message(f"Forwarded: {selected_message}")
-        else:
+        """Forward the content from the Full Message box."""
+        modified_message = self.message_text.get(1.0, tk.END).strip()
+        if not modified_message:
             self.log_message("No message to forward.")
+            return
+        # print the modified message so that to distinguish from the others
+        print("\n",modified_message)
+        # Verify if the current content is valid
+        if not self.Validate_Request(modified_message):
+            self.log_message("The modified message is invalid and was not forwarded.")
+            return
+        
+        # Send the modified content
+        self.send_response(modified_message)
+        self.log_message(f"Forwarded modified message:\n{modified_message}")
+
 
     def drop_packet(self):
+        selected_index = self.request_listbox.curselection()
+        if not selected_index:  # If no item is selected
+            self.log_message("No request selected to drop.")
+            return
+    
         self.send_response("DROP") 
         self.log_message("Drop button pressed. Connection closed.")
 
     def log_message(self, message):
-        self.log_text.insert(tk.END, message + "\n")
+        self.log_text.insert(tk.END, message + "\n\n")
         self.log_text.yview(tk.END)
 
     def history_message(self, message):
@@ -180,7 +206,7 @@ class ProxyApp:
             stderr=subprocess.PIPE
         )
         self.log_message("Proxy server started.")
-        self.intercept_button.config(text="Intercept Off")
+        self.intercept_button.config(text="Intercept On")
 
         # Porneste un thread de ascultare a cererilor
         # Ne asiguram ca doar o instanta a unui thread verifica aceasta conditie
@@ -197,6 +223,7 @@ class ProxyApp:
             self.intercept_button.config(text="Intercept On")
 
     def listen_to_requests(self):
+        """Listen for incoming requests and handle according to intercept state."""
         with open(PIPE_REQUEST, "r") as request_pipe:
             while True:
                 ready, _, _ = select.select([request_pipe], [], [], 1)  # Timeout of 1 second
@@ -211,12 +238,36 @@ class ProxyApp:
                     
                     # Join lines into a single request string
                     request = "".join(request_lines)
+                   
                     if request:
-                        method, host = self.parse_request(request)
-                        display_message = f"{method} - {host}"
-                        self.request_listbox.insert(tk.END, display_message)
-                        self.log_message(f"Intercepted Request:\n{request}")
+                        if self.intercept_enabled:
+                            print("Inside intercept")
+                            # verify if it is a valid request
+                            if self.Validate_Request(request) is True:
+                                self.log_message(f"Intercepted Request:\n{request}")
+                            
+                                method, host = self.parse_request(request) 
+                                display_message = f"{method} - {host}"
+                                
+                                # insert only the method - host to the request list
+                                self.request_listbox.insert(0, display_message)
+                                # insert the entire request into the request list
+                                self.full_requests[display_message] = request
+                        else: 
+                            print("Outside intercept")
+                            self.send_response(request)
                     else: continue 
+
+    def Validate_Request(self,request):
+        self.valid_methods = {"GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS", "HEAD", "CONNECT", "TRACE", "UPDATE"}
+        if not request or not isinstance(request, str):
+            return False 
+        first_word = request.split()[0] if request.strip() else ""
+
+        if first_word in self.valid_methods: 
+            return True
+        return False; 
+    
 
     def parse_request(self, request):
         """Parse HTTP request to extract method and host."""

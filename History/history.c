@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <time.h>
+#include <stdio.h>
 
 Logging *logger = NULL;
 
@@ -17,6 +18,9 @@ Logging *set_LogStruct()
         DIE(1, "Error allocating the Logging!");
         return NULL;
     }
+    char buff[100];
+    sprintf(buff, "./%s", LOG_FILE);
+    remove(buff);
     lg->fd = open(LOG_FILE, O_CREAT | O_APPEND | O_WRONLY, 0644);
     pthread_mutex_init(&lg->mutex, NULL);
     DIE(lg->fd == -1, "Error creating/opening logfile!");
