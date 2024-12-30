@@ -1,10 +1,7 @@
 #include "server.h"
-// #include "../Protocols/HTTP.h"
 #include "../utils.h"
-// #include "../Shared_Mem/utils.h"
 #include "../History/utils.h"
 #include <pthread.h>
-
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <unistd.h>

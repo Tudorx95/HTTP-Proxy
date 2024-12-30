@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include "../Shared_Mem/utils.h"
 
 CacheManagementUnit *cache = NULL;
 
@@ -82,7 +81,7 @@ void store_message(CacheManagementUnit *cmu, const char *client_id, const char *
     printf("Stored new message in cache for client_id: %s: %s\n", client_id, message);
 }
 
-//cautarea unui mesaj stocat pentru un anumit client in cache
+// cautarea unui mesaj stocat pentru un anumit client in cache
 char *retrieve_message(CacheManagementUnit *cmu, const char *client_id)
 {
     pthread_mutex_lock(&cmu->lock);
