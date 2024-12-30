@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import ttk, messagebox
 import subprocess
 import threading
 import os
@@ -8,6 +8,9 @@ import select
 
 PIPE_REQUEST = "/tmp/proxy_request"
 PIPE_RESPONSE = "/tmp/proxy_response"
+
+HISTORY_PATH = "./log.txt"
+
 
 if not os.path.exists(PIPE_REQUEST):
     os.mkfifo(PIPE_REQUEST)
@@ -19,47 +22,116 @@ class ProxyApp:
     def __init__(self, root):
         self.root = root
         self.root.title("HTTP Proxy GUI")
-        self.root.geometry("800x600")
+        self.root.geometry("1920x1080")
 
-        self.intercept_frame = tk.LabelFrame(self.root, text="Intercept", padx=10, pady=10)
-        self.intercept_frame.grid(row=0, column=0, padx=10, pady=10)
+         # Create notebook for tabs
+        self.notebook = ttk.Notebook(self.root)
+        self.notebook.pack(expand=True, fill='both')
 
-        self.intercept_on_button = tk.Button(self.intercept_frame, text="Intercept On", command=self.toggle_intercept)
-        self.intercept_on_button.grid(row=0, column=0, padx=5, pady=5)
+        # Create tabs
+        self.proxy_tab = ttk.Frame(self.notebook)
+        #self.blacklist_tab = ttk.Frame(self.notebook)
+        self.history_tab = ttk.Frame(self.notebook)
 
-        self.forward_button = tk.Button(self.intercept_frame, text="Forward", command=self.forward_packet)
-        self.forward_button.grid(row=0, column=1, padx=5, pady=5)
+        self.notebook.add(self.proxy_tab, text="Proxy")
+        #self.notebook.add(self.blacklist_tab, text="Blacklist")
+        self.notebook.add(self.history_tab, text="History")
 
-        self.drop_button = tk.Button(self.intercept_frame, text="Drop", command=self.drop_packet)
-        self.drop_button.grid(row=0, column=2, padx=5, pady=5)
-
-        self.history_frame = tk.LabelFrame(self.root, text="HTTP History", padx=10, pady=10)
-        self.history_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.http_history_listbox = tk.Listbox(self.history_frame, height=15, width=100)
-        self.http_history_listbox.grid(row=0, column=0, padx=5, pady=5)
-
-        self.scrollbar = tk.Scrollbar(self.history_frame)
-        self.scrollbar.grid(row=0, column=1, sticky='ns')
-        self.http_history_listbox.config(yscrollcommand=self.scrollbar.set)
-        self.scrollbar.config(command=self.http_history_listbox.yview)
-
-        self.log_frame = tk.LabelFrame(self.root, text="Log", padx=10, pady=10)
-        self.log_frame.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.log_text = tk.Text(self.log_frame, height=10, width=100)
-        self.log_text.grid(row=0, column=0, padx=5, pady=5)
-
-        self.edit_frame = tk.LabelFrame(self.root, text="Edit Message", padx=10, pady=10)
-        self.edit_frame.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
-
-        self.edit_text = tk.Text(self.edit_frame, height=5, width=100)
-        self.edit_text.grid(row=0, column=0, padx=5, pady=5)
+        # Setup each tab
+        self.setup_proxy_tab()
+        #self.setup_blacklist_tab()
+        self.setup_history_tab()
 
         self.proxy_process = None
 
-        # Bind pentru selectarea unui mesaj din history
-        self.http_history_listbox.bind("<<ListboxSelect>>", self.load_selected_message)
+    def setup_proxy_tab(self):
+        """Setup the Proxy tab layout and functionality."""
+        # Buttons Frame
+        self.proxy_button_frame = tk.Frame(self.proxy_tab, padx=10, pady=10)
+        self.proxy_button_frame.pack(side=tk.TOP, fill=tk.X)
+
+        self.intercept_button = ttk.Button(self.proxy_button_frame, text="Intercept", command=self.toggle_intercept)
+        self.intercept_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+        self.forward_button = ttk.Button(self.proxy_button_frame, text="Forward", command=self.forward_packet)
+        self.forward_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+        self.drop_button = ttk.Button(self.proxy_button_frame, text="Drop", command=self.drop_packet)
+        self.drop_button.pack(side=tk.LEFT, padx=5, pady=5)
+
+        # Request List Frame
+        self.request_list_frame = tk.LabelFrame(self.proxy_tab, text="Requests", padx=10, pady=10)
+        self.request_list_frame.pack(expand=True, fill='both', padx=10, pady=10)
+
+        self.request_listbox = tk.Listbox(self.request_list_frame, height=15, width=80)
+        self.request_listbox.pack(side=tk.LEFT, padx=5, pady=5, fill=tk.BOTH, expand=True)
+
+        self.request_scrollbar = tk.Scrollbar(self.request_list_frame)
+        self.request_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.request_listbox.config(yscrollcommand=self.request_scrollbar.set)
+        self.request_scrollbar.config(command=self.request_listbox.yview)
+
+        # Bind click event to load full message
+        self.request_listbox.bind("<<ListboxSelect>>", self.load_full_message)
+
+        # Full Message Frame
+        self.message_frame = tk.LabelFrame(self.proxy_tab, text="Full Message", padx=10, pady=10)
+        self.message_frame.pack(fill=tk.X, padx=10, pady=10)
+
+        self.message_text = tk.Text(self.message_frame, height=8, wrap=tk.WORD)
+        self.message_text.pack(fill=tk.BOTH, padx=5, pady=5)
+
+        # Logging Frame
+        self.log_frame = tk.LabelFrame(self.proxy_tab, text="Log", padx=10, pady=10)
+        self.log_frame.pack(fill=tk.X, padx=10, pady=10)
+
+        self.log_text = tk.Text(self.log_frame, height=10, wrap=tk.WORD)
+        self.log_text.pack(fill=tk.BOTH, padx=5, pady=5)
+
+    def setup_blacklist_tab(self):
+        """Setup the Blacklist tab layout and functionality."""
+        self.blacklist_text = tk.Text(self.blacklist_tab, wrap=tk.WORD)
+        self.blacklist_text.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
+
+        # Load blacklist content from server
+        self.load_blacklist()
+
+    def setup_history_tab(self):
+        """Setup the History tab layout and functionality."""
+        self.history_text = tk.Text(self.history_tab, wrap=tk.WORD)
+        self.history_text.pack(expand=True, fill=tk.BOTH, padx=10, pady=10)
+
+        # Load history content from server
+        self.load_history()
+
+    def load_full_message(self, event):
+        """Load full message for the selected request."""
+        try:
+            selected_index = self.request_listbox.curselection()
+            if selected_index:
+                message = self.request_listbox.get(selected_index)
+                self.message_text.delete(1.0, tk.END)
+                self.message_text.insert(tk.END, f"Full message:\n{message}")
+
+        except Exception as e:
+            self.log_message(f"Error loading message: {e}")
+
+    def load_blacklist(self):
+        """Load the blacklist file content."""
+        try:
+            with open("/path/to/blacklist.txt", "r") as file:
+                self.blacklist_text.insert(tk.END, file.read())
+        except Exception as e:
+            self.log_message(f"Error loading blacklist: {e}")
+
+    def load_history(self):
+        """Load the history file content."""
+        try:
+            with open(HISTORY_PATH, "r") as file:
+                self.history_text.insert(tk.END, file.read())
+        except Exception as e:
+            self.log_message(f"Error loading history: {e}")
+
 
     def toggle_intercept(self):
         if self.proxy_process is None:
@@ -68,11 +140,11 @@ class ProxyApp:
             self.stop_proxy_server()
 
     def forward_packet(self):
-        # Obține mesajul editat din câmpul de editare
-        edited_message = self.edit_text.get(1.0, tk.END).strip()
-        if edited_message:
-            self.send_response(edited_message)  # Trimite mesajul editat
-            self.log_message(f"Forwarded edited message:\n{edited_message}")
+        """Forward selected request."""
+        selected_message = self.message_text.get(1.0, tk.END).strip()
+        if selected_message:
+            self.send_response(selected_message)
+            self.log_message(f"Forwarded: {selected_message}")
         else:
             self.log_message("No message to forward.")
 
@@ -85,16 +157,17 @@ class ProxyApp:
         self.log_text.yview(tk.END)
 
     def history_message(self, message):
+        messagebox.showinfo("History", "View your request history here.")
         lines = message.splitlines()  # Împarte mesajul în linii
         for line in lines:
-            self.http_history_listbox.insert(tk.END, line)  # Adaugă fiecare linie în Listbox
-        self.http_history_listbox.yview(tk.END)  # Derulează la final
+            self.history_text.insert(tk.END, line)  # Adaugă fiecare linie în Listbox
+        self.history_text.yview(tk.END)  # Derulează la final
 
     def load_selected_message(self, event):
         try:
-            selected_index = self.http_history_listbox.curselection()
+            selected_index = self.history_text.curselection()
             if selected_index:
-                message = self.http_history_listbox.get(selected_index)
+                message = self.history_text.get(selected_index)
                 self.edit_text.delete(1.0, tk.END)  # Șterge textul existent
                 self.edit_text.insert(tk.END, message)  # Inserează mesajul selectat
         except Exception as e:
@@ -107,7 +180,7 @@ class ProxyApp:
             stderr=subprocess.PIPE
         )
         self.log_message("Proxy server started.")
-        self.intercept_on_button.config(text="Intercept Off")
+        self.intercept_button.config(text="Intercept Off")
 
         # Porneste un thread de ascultare a cererilor
         # Ne asiguram ca doar o instanta a unui thread verifica aceasta conditie
@@ -121,19 +194,47 @@ class ProxyApp:
             self.proxy_process.wait()  # Așteapta ca procesul sa se termine complet
             self.proxy_process = None  # Reseteaza variabila
             self.log_message("Proxy server stopped.")
-            self.intercept_on_button.config(text="Intercept On")
+            self.intercept_button.config(text="Intercept On")
 
     def listen_to_requests(self):
         with open(PIPE_REQUEST, "r") as request_pipe:
             while True:
                 ready, _, _ = select.select([request_pipe], [], [], 1)  # Timeout of 1 second
                 if ready:
-                    request = request_pipe.readline()
+                    # Aggregate all lines of the request
+                    request_lines = []
+                    while True:
+                        line = request_pipe.readline()
+                        if line == "\n" or line == "":  # End of headers
+                            break
+                        request_lines.append(line)
+                    
+                    # Join lines into a single request string
+                    request = "".join(request_lines)
                     if request:
-                        self.http_history_listbox.insert(tk.END, request)
+                        method, host = self.parse_request(request)
+                        display_message = f"{method} - {host}"
+                        self.request_listbox.insert(tk.END, display_message)
                         self.log_message(f"Intercepted Request:\n{request}")
                     else: continue 
 
+    def parse_request(self, request):
+        """Parse HTTP request to extract method and host."""
+        method = "UNKNOWN"
+        host = "UNKNOWN"
+        lines = request.splitlines()
+        if lines:
+            first_line = lines[0].split()
+            if len(first_line) > 0:
+                method = first_line[0]
+            for line in lines:
+                # For printing the entire request strings print(line)
+                if line.startswith("Host:"):
+                    host = line.split(":", 1)[1].strip()
+                    break
+        return method, host
+    
+    
     def send_response(self, response):
         try:
             self.log_message(f"Sending response to proxy: {response}")  # Log

@@ -1,7 +1,9 @@
 #include "./utils.h"
+#include "../History/utils.h"
 
 void signal_caught(int sig)
 {
+    Free_Logging(logger);
     switch (sig)
     {
     case SIGHUP:

@@ -1,8 +1,8 @@
 #include "server.h"
 #include "../Protocols/HTTP.h"
 #include "../utils.h"
-// #include "../TerminalGUI/utils.h"
 #include "../Shared_Mem/utils.h"
+#include "../History/utils.h"
 #include <pthread.h>
 
 #include <fcntl.h>
@@ -154,7 +154,6 @@ void handle_tunnel_with_EPOLL(int client_socket, int dest_socket)
 
 void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 {
-
   if (client_socket < 0 || buffer == NULL || bytes_read <= 0)
   {
     printf("Invalid request detected. Closing connection.\n");
@@ -251,7 +250,6 @@ void resolve_HTTP(int client_socket, char *buffer, int bytes_read)
 }
 void resolve_HTTPS(int client_socket, char *buffer)
 {
-
   char host[1024];
   int dest_port = HTTPS_PORT; // Default HTTPS port
   char *url_start, *url_end, *port_str;
@@ -373,6 +371,7 @@ void handle_client(int client_socket)
   char method[16], url[256];
   sscanf(buffer, "%15s %255s", method, url);
 
+  Log_AddMessage(logger, buffer);
   // Trimite informatiile catre GUI printr-un pipe
   int pipe_request_fd = open(PIPE_REQUEST, O_WRONLY);
   if (pipe_request_fd < 0)

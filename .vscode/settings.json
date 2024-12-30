@@ -1,12 +1,14 @@
 {
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "utils.h": "c",
-        "server.h": "c",
-        "inet.h": "c",
-        "types.h": "c",
-        "stdlib.h": "c",
-        "fcntl.h": "c"
-    },
-    "C_Cpp.errorSquiggles": "disabled"
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "utils.h": "c",
+    "server.h": "c",
+    "inet.h": "c",
+    "types.h": "c",
+    "stdlib.h": "c",
+    "fcntl.h": "c",
+    "cmath": "c",
+    "pthread.h": "c"
+  },
+  "C_Cpp.errorSquiggles": "disabled"
 }
