@@ -1,7 +1,7 @@
 #include "server.h"
 #include "../Protocols/HTTP.h"
 #include "../utils.h"
-//#include "../TerminalGUI/utils.h"
+// #include "../TerminalGUI/utils.h"
 #include "../Shared_Mem/utils.h"
 #include <pthread.h>
 
@@ -15,8 +15,15 @@
 
 #define GUI_PORT 9999
 
-//bool intercept_state = true;  // Interceptarea este activa implicit
+// bool intercept_state = true;  // Interceptarea este activa implicit
 
+void set_NonBlock_flag(int sockfd)
+{
+  // F_GETFL get value of file status flags
+  int current_flags = fcntl(sockfd, F_GETFL, 0);
+  // set the non-blocking property within the fd flags
+  fcntl(sockfd, F_SETFL, current_flags | O_NONBLOCK);
+}
 
 struct sockaddr_in populate_socket(int standard, int port, const char *ip)
 {
@@ -333,7 +340,7 @@ void resolve_HTTPS(int client_socket, char *buffer)
 //         return;
 //     }
 
-//     buffer[bytes_read] = '\0';  
+//     buffer[bytes_read] = '\0';
 
 //     if (strncmp(buffer, "ON", 2) == 0) {
 //         intercept_state = true;
@@ -346,163 +353,175 @@ void resolve_HTTPS(int client_socket, char *buffer)
 //     }
 // }
 
-
 // receiver process should redirect the message
 void handle_client(int client_socket)
 {
 
   char buffer[BUFFER_SIZE];
-    ssize_t bytes_read;
+  ssize_t bytes_read;
 
-    bytes_read = recv(client_socket, buffer, CLIENT_LEN_MESS - 1, 0);
-    if (bytes_read < 0)
-    {
-        perror("Error reading from client");
-        close(client_socket);
-        return;
-    }
-    buffer[bytes_read] = '\0'; 
-    printf("Received request:\n%s\n", buffer);
+  bytes_read = recv(client_socket, buffer, CLIENT_LEN_MESS - 1, 0);
+  if (bytes_read < 0)
+  {
+    perror("Error reading from client");
+    close(client_socket);
+    return;
+  }
+  buffer[bytes_read] = '\0';
+  printf("Received request:\n%s\n", buffer);
 
-    char method[16], url[256];
-    sscanf(buffer, "%15s %255s", method, url);
+  char method[16], url[256];
+  sscanf(buffer, "%15s %255s", method, url);
 
-    // Trimite informatiile catre GUI printr-un pipe
-    int pipe_request_fd = open(PIPE_REQUEST, O_WRONLY);
-    if (pipe_request_fd < 0)
-    {
-        perror("Error opening request pipe");
-        close(client_socket);
-        return;
-    }
+  // Trimite informatiile catre GUI printr-un pipe
+  int pipe_request_fd = open(PIPE_REQUEST, O_WRONLY);
+  if (pipe_request_fd < 0)
+  {
+    perror("Error opening request pipe");
+    close(client_socket);
+    return;
+  }
+  set_NonBlock_flag(pipe_request_fd);
+  // char gui_message[512];
+  // snprintf(gui_message, sizeof(gui_message), "METHOD: %s\nURL: %s\n", method, url);
+  write(pipe_request_fd, buffer, strlen(buffer));
+  close(pipe_request_fd);
 
-    // char gui_message[512];
-    // snprintf(gui_message, sizeof(gui_message), "METHOD: %s\nURL: %s\n", method, url);
-    write(pipe_request_fd, buffer, strlen(buffer)); 
-    close(pipe_request_fd);
+  int pipe_response_fd = open(PIPE_RESPONSE, O_RDONLY);
+  if (pipe_response_fd < 0)
+  {
+    perror("Error opening response pipe");
+    close(client_socket);
+    return;
+  }
+  set_NonBlock_flag(pipe_response_fd);
 
-    int pipe_response_fd = open(PIPE_RESPONSE, O_RDONLY);
-    if (pipe_response_fd < 0)
-    {
-        perror("Error opening response pipe");
-        close(client_socket);
-        return;
-    }
+  char gui_response[32];
+  read(pipe_response_fd, gui_response, sizeof(gui_response));
+  close(pipe_response_fd);
 
-    char gui_response[32];
-    read(pipe_response_fd, gui_response, sizeof(gui_response));
-    close(pipe_response_fd);
- 
-    if (strncmp(gui_response, "DROP", 4) == 0 && strlen(gui_response) >= 4)
-    {
-      printf("Request dropped by GUI\n");
-      const char *error_response = "HTTP/1.1 403 Forbidden\r\n"
+  if (strncmp(gui_response, "DROP", 4) == 0 && strlen(gui_response) >= 4)
+  {
+    printf("Request dropped by GUI\n");
+    const char *error_response = "HTTP/1.1 403 Forbidden\r\n"
                                  "Content-Length: 0\r\n"
                                  "Connection: close\r\n\r\n";
-      send(client_socket, error_response, strlen(error_response), 0);
+    send(client_socket, error_response, strlen(error_response), 0);
 
-       // Flush socket buffer
-      char temp[512];
-      while (recv(client_socket, temp, sizeof(temp) - 1, MSG_DONTWAIT) > 0)
-        ;
+    // Flush socket buffer
+    char temp[512];
+    while (recv(client_socket, temp, sizeof(temp) - 1, MSG_DONTWAIT) > 0)
+      ;
 
-      shutdown(client_socket, SHUT_RDWR);
-      close(client_socket);
-      return;
+    shutdown(client_socket, SHUT_RDWR);
+    close(client_socket);
+    return;
+  }
+
+  printf("Request forwarded by GUI\n");
+
+  if (strncmp(buffer, "CONNECT ", 8) == 0)
+  {
+    resolve_HTTPS(client_socket, buffer);
+  }
+  else
+  {
+    resolve_HTTP(client_socket, buffer, bytes_read);
+  }
+}
+
+void send_to_gui(const char *message)
+{
+  int gui_socket = socket(AF_INET, SOCK_STREAM, 0);
+  if (gui_socket < 0)
+  {
+    perror("Error creating socket for GUI connection");
+    return;
+  }
+
+  struct sockaddr_in gui_addr;
+  memset(&gui_addr, 0, sizeof(gui_addr));
+  gui_addr.sin_family = AF_INET;
+  gui_addr.sin_port = htons(GUI_PORT);
+  inet_pton(AF_INET, "127.0.0.1", &gui_addr.sin_addr);
+
+  if (connect(gui_socket, (struct sockaddr *)&gui_addr, sizeof(gui_addr)) == 0)
+  {
+    send(gui_socket, message, strlen(message), 0);
+    printf("Sent message to GUI: %s\n", message); // Log pentru verificare
+    close(gui_socket);
+  }
+  else
+  {
+    perror("Failed to connect to GUI");
+  }
+}
+
+void runConnection()
+{
+  int server_socket, client_socket;
+  struct sockaddr_in server_addr, client_addr;
+  socklen_t client_len = sizeof(client_addr);
+
+  server_socket = socket(AF_INET, SOCK_STREAM, 0);
+  if (server_socket < 0)
+  {
+    perror("Error creating server socket");
+    exit(1);
+  }
+
+  memset(&server_addr, 0, sizeof(server_addr));
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_addr.s_addr = INADDR_ANY;
+  server_addr.sin_port = htons(PORT);
+  int opt = 1;
+  if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0)
+  {
+    perror("setsockopt failed");
+    close(server_socket);
+    exit(EXIT_FAILURE);
+  }
+
+  if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0)
+  {
+    perror("Error binding server socket");
+    close(server_socket);
+    exit(1);
+  }
+
+  if (listen(server_socket, 10) < 0)
+  {
+    perror("Error listening on server socket");
+    close(server_socket);
+    exit(1);
+  }
+
+  printf("Proxy server listening on port %d...\n", PORT);
+
+  while (1)
+  {
+    // update_intercept_state();
+    client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_len);
+    if (client_socket < 0)
+    {
+      perror("Error accepting client connection");
+      continue;
     }
 
+    printf("Accepted a client connection\n");
 
-    printf("Request forwarded by GUI\n");
-
-    if (strncmp(buffer, "CONNECT ", 8) == 0)
+    // Creeaza un thread pentru fiecare client
+    pthread_t thread_id;
+    if (pthread_create(&thread_id, NULL, (void *)handle_client, (void *)(intptr_t)client_socket) != 0)
     {
-        resolve_HTTPS(client_socket, buffer); 
+      perror("Error creating thread");
+      close(client_socket);
     }
     else
     {
-        resolve_HTTP(client_socket, buffer, bytes_read); 
+      pthread_detach(thread_id); // Auto-curatare dupa terminarea thread-ului
     }
-} 
+  }
 
-void send_to_gui(const char *message) {
-    int gui_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (gui_socket < 0) {
-        perror("Error creating socket for GUI connection");
-        return;
-    }
-
-    struct sockaddr_in gui_addr;
-    memset(&gui_addr, 0, sizeof(gui_addr));
-    gui_addr.sin_family = AF_INET;
-    gui_addr.sin_port = htons(GUI_PORT);  
-    inet_pton(AF_INET, "127.0.0.1", &gui_addr.sin_addr);  
-
-    if (connect(gui_socket, (struct sockaddr *)&gui_addr, sizeof(gui_addr)) == 0) {
-        send(gui_socket, message, strlen(message), 0);
-        printf("Sent message to GUI: %s\n", message);  // Log pentru verificare
-        close(gui_socket);
-    } else {
-        perror("Failed to connect to GUI");
-    }
-}
-
-
-
-void runConnection() {
-    int server_socket, client_socket;
-    struct sockaddr_in server_addr, client_addr;
-    socklen_t client_len = sizeof(client_addr);
-
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket < 0) {
-        perror("Error creating server socket");
-        exit(1);
-    }
-
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = INADDR_ANY;
-    server_addr.sin_port = htons(PORT);
-    int opt = 1;
-    if (setsockopt(server_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-        perror("setsockopt failed");
-        close(server_socket);
-        exit(EXIT_FAILURE);
-    }
-
-    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-        perror("Error binding server socket");
-        close(server_socket);
-        exit(1);
-    }
-
-    if (listen(server_socket, 10) < 0) {
-        perror("Error listening on server socket");
-        close(server_socket);
-        exit(1);
-    }
-
-    printf("Proxy server listening on port %d...\n", PORT);
-
-    while (1) {
-        //update_intercept_state();  
-        client_socket = accept(server_socket, (struct sockaddr *)&client_addr, &client_len);
-        if (client_socket < 0) {
-            perror("Error accepting client connection");
-            continue;
-        }
-
-        printf("Accepted a client connection\n");
-
-        // Creeaza un thread pentru fiecare client
-        pthread_t thread_id;
-        if (pthread_create(&thread_id, NULL, (void *)handle_client, (void *)(intptr_t)client_socket) != 0) {
-            perror("Error creating thread");
-            close(client_socket);
-        } else {
-            pthread_detach(thread_id);  // Auto-curatare dupa terminarea thread-ului
-        }
-    }
-
-    close(server_socket);
+  close(server_socket);
 }

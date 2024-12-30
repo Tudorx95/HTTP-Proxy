@@ -4,6 +4,7 @@ import subprocess
 import threading
 import os
 import signal
+import select
 
 PIPE_REQUEST = "/tmp/proxy_request"
 PIPE_RESPONSE = "/tmp/proxy_response"
@@ -101,7 +102,7 @@ class ProxyApp:
 
     def start_proxy_server(self):
         self.proxy_process = subprocess.Popen(
-            ['/home/andreea/Desktop/HTTP-Proxy/my_program'],
+            ['./my_program'],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
@@ -109,8 +110,10 @@ class ProxyApp:
         self.intercept_on_button.config(text="Intercept Off")
 
         # Porneste un thread de ascultare a cererilor
-        self.listener_thread = threading.Thread(target=self.listen_to_requests, daemon=True)
-        self.listener_thread.start()
+        # Ne asiguram ca doar o instanta a unui thread verifica aceasta conditie
+        if not hasattr(self, "listener_thread") or not self.listener_thread.is_alive():
+            self.listener_thread = threading.Thread(target=self.listen_to_requests, daemon=True)
+            self.listener_thread.start()
 
     def stop_proxy_server(self):
         if self.proxy_process:
@@ -123,17 +126,21 @@ class ProxyApp:
     def listen_to_requests(self):
         with open(PIPE_REQUEST, "r") as request_pipe:
             while True:
-                request = request_pipe.read()  # Citește mesajul complet din pipe
-                if request:
-                    # Loghează și adaugă exact același mesaj în history
-                    self.log_message(f"Intercepted Request:\n{request}")
-                    self.history_message(f"Intercepted Request:\n{request}")
+                ready, _, _ = select.select([request_pipe], [], [], 1)  # Timeout of 1 second
+                if ready:
+                    request = request_pipe.readline()
+                    if request:
+                        self.http_history_listbox.insert(tk.END, request)
+                        self.log_message(f"Intercepted Request:\n{request}")
+                    else: continue 
 
     def send_response(self, response):
         try:
             self.log_message(f"Sending response to proxy: {response}")  # Log
-            with open(PIPE_RESPONSE, "w") as response_pipe:
+            # buffering <=> O_NONBLOCK flag
+            with open(PIPE_RESPONSE, "w", buffering=1) as response_pipe:
                 response_pipe.write(response + "\n")
+                response_pipe.flush()
             self.log_message(f"Response sent: {response}")
         except Exception as e:
             self.log_message(f"Error sending response: {e}")

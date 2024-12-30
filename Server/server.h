@@ -29,4 +29,6 @@ void handle_tunnel_with_EPOLL(int client_socket, int dest_socket);
 void handle_client(int client_sock);
 void runConnection();
 
+void set_NonBlock_flag(int sockfd);
+
 #endif

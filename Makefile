@@ -12,5 +12,8 @@ $(TARGET): $(OBJ)
 %.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
+run: 
+	@ python3 ./GUI/main.py 
+
 clean:
 	rm -f $(OBJ) $(TARGET)
