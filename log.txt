@@ -1,120 +1,14 @@
-[2024-12-30 20:28:12] CONNECT www.google.com:443 HTTP/1.1
+[2024-12-30 20:36:37] CONNECT www.google.com:443 HTTP/1.1
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
 Proxy-Connection: keep-alive
 Connection: keep-alive
 Host: www.google.com:443
 
 
-[2024-12-30 20:28:13] CONNECT www.youtube.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: www.youtube.com:443
-
-
-[2024-12-30 20:28:16] CONNECT i.ytimg.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: i.ytimg.com:443
-
-
-[2024-12-30 20:28:17] CONNECT googleads.g.doubleclick.net:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: googleads.g.doubleclick.net:443
-
-
-[2024-12-30 20:28:17] CONNECT www.google.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: www.google.com:443
-
-
-[2024-12-30 20:28:17] CONNECT jnn-pa.googleapis.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: jnn-pa.googleapis.com:443
-
-
-[2024-12-30 20:28:17] CONNECT static.doubleclick.net:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: static.doubleclick.net:443
-
-
-[2024-12-30 20:28:18] POST http://o.pki.goog/wr2 HTTP/1.1
-Host: o.pki.goog
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Accept: */*
-Accept-Language: en-US,en;q=0.5
-Accept-Encoding: gzip, deflate
-Content-Type: application/ocsp-request
-Content-Length: 84
-Connection: keep-alive
-Priority: u=2
-Pragma: no-cache
-Cache-Control: no-cache
-
-0R0P0N0L0J0	+
-[2024-12-30 20:28:18] POST http://o.pki.goog/wr2 HTTP/1.1
-Host: o.pki.goog
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Accept: */*
-Accept-Language: en-US,en;q=0.5
-Accept-Encoding: gzip, deflate
-Content-Type: application/ocsp-request
-Content-Length: 83
-Connection: keep-alive
-Priority: u=2
-Pragma: no-cache
-Cache-Control: no-cache
-
-0Q0O0M0K0I0	+
-[2024-12-30 20:28:18] CONNECT play.google.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: play.google.com:443
-
-
-[2024-12-30 20:28:22] 
-[2024-12-30 20:28:22] 
-[2024-12-30 20:28:24] CONNECT www.google.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: www.google.com:443
-
-
-[2024-12-30 20:28:25] CONNECT wiki.mta.ro:443 HTTP/1.1
+[2024-12-30 20:36:37] CONNECT wiki.mta.ro:443 HTTP/1.1
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
 Proxy-Connection: keep-alive
 Connection: keep-alive
 Host: wiki.mta.ro:443
 
 
-[2024-12-30 20:28:27] CONNECT wiki.mta.ro:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: wiki.mta.ro:443
-
-
-[2024-12-30 20:28:27] 
-[2024-12-30 20:28:27] 
-[2024-12-30 20:28:27] 
-[2024-12-30 20:28:27] CONNECT wiki.mta.ro:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
-Proxy-Connection: keep-alive
-Connection: keep-alive
-Host: wiki.mta.ro:443
-
-
-[2024-12-30 20:28:27] 
-[2024-12-30 20:28:27] 
-[2024-12-30 20:28:27] 

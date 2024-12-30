@@ -254,7 +254,6 @@ class ProxyApp:
                                 # insert the entire request into the request list
                                 self.full_requests[display_message] = request
                         else: 
-                            print("Outside intercept")
                             self.send_response(request)
                     else: continue 
 
