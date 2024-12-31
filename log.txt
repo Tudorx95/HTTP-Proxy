@@ -1,7 +1,1010 @@
-[2024-12-30 21:02:40] CONNECT spocs.getpocket.com:443 HTTP/1.1
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0
+[2024-12-31 13:24:54] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:24:55] GET http://detectportal.firefox.com/success.txt?ipv6 HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+[2024-12-31 13:24:55] GET http://detectportal.firefox.com/success.txt?ipv4 HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+[2024-12-31 13:24:55] CONNECT contile.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: contile.services.mozilla.com:443
+
+
+[2024-12-31 13:24:55] CONNECT spocs.getpocket.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
 Proxy-Connection: keep-alive
 Connection: keep-alive
 Host: spocs.getpocket.com:443
+
+
+[2024-12-31 13:24:55] POST http://r11.o.lencr.org/ HTTP/1.1
+Host: r11.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:24:56] CONNECT push.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: push.services.mozilla.com:443
+
+
+[2024-12-31 13:24:56] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT safebrowsing.googleapis.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: safebrowsing.googleapis.com:443
+
+
+[2024-12-31 13:24:56] POST http://r10.o.lencr.org/ HTTP/1.1
+Host: r10.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:24:56] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:24:56] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:24:56] POST http://o.pki.goog/wr2 HTTP/1.1
+Host: o.pki.goog
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:24:56] CONNECT services.addons.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: services.addons.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT services.addons.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: services.addons.mozilla.org:443
+
+
+[2024-12-31 13:24:56] CONNECT firefox.settings.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: firefox.settings.services.mozilla.com:443
+
+
+[2024-12-31 13:24:57] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:25:01] CONNECT shavar.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: shavar.services.mozilla.com:443
+
+
+[2024-12-31 13:25:22] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:25:23] CONNECT normandy.cdn.mozilla.net:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: normandy.cdn.mozilla.net:443
+
+
+[2024-12-31 13:25:23] CONNECT versioncheck-bg.addons.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: versioncheck-bg.addons.mozilla.org:443
+
+
+[2024-12-31 13:25:23] CONNECT versioncheck-bg.addons.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: versioncheck-bg.addons.mozilla.org:443
+
+
+[2024-12-31 13:25:24] CONNECT aus5.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: aus5.mozilla.org:443
+
+
+[2024-12-31 13:25:25] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:25:25] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:25:27] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:25:27] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:25:30] 
+[2024-12-31 13:25:36] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:25:36] POST http://r11.o.lencr.org/ HTTP/1.1
+Host: r11.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:25:36] CONNECT aus5.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: aus5.mozilla.org:443
+
+
+[2024-12-31 13:25:38] CONNECT content-signature-2.cdn.mozilla.net:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: content-signature-2.cdn.mozilla.net:443
+
+
+[2024-12-31 13:25:38] CONNECT classify-client.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: classify-client.services.mozilla.com:443
+
+
+[2024-12-31 13:25:44] CONNECT www.vmware.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: www.vmware.com:443
+
+
+[2024-12-31 13:25:58] GET http://ciscobinary.openh264.org/openh264-linux64-2e1774ab6dc6c43debb0b5b628bdf122a391d521.zip HTTP/1.1
+Host: ciscobinary.openh264.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+If-Modified-Since: Fri, 08 Nov 2024 02:52:26 GMT
+If-None-Match: 152eda253e242e18443ef3282495bc7c
+
+
+[2024-12-31 13:25:59] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:26:04] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:26:09] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:26:14] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:26:19] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:26:27] CONNECT login.broadcom.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: login.broadcom.com:443
+
+
+[2024-12-31 13:27:08] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:18] CONNECT github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.com:443
+
+
+[2024-12-31 13:27:25] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:27:26] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:27:26] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:27:26] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:27:26] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:27:27] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:27:27] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:27:29] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:27:29] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:27:31] 
+[2024-12-31 13:27:42] CONNECT api.github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: api.github.com:443
+
+
+[2024-12-31 13:27:44] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:48] CONNECT collector.github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: collector.github.com:443
+
+
+[2024-12-31 13:27:50] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:50] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:50] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:50] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:50] CONNECT main.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: main.mta.ro:443
+
+
+[2024-12-31 13:27:51] CONNECT collector.github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: collector.github.com:443
+
+
+[2024-12-31 13:27:56] POST http://r11.o.lencr.org/ HTTP/1.1
+Host: r11.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:27:56] POST http://r10.o.lencr.org/ HTTP/1.1
+Host: r10.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:29:37] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:29:37] CONNECT contile.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: contile.services.mozilla.com:443
+
+
+[2024-12-31 13:29:38] CONNECT services.addons.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: services.addons.mozilla.org:443
+
+
+[2024-12-31 13:29:38] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:38] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:38] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:38] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:38] CONNECT push.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: push.services.mozilla.com:443
+
+
+[2024-12-31 13:29:39] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:41] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:29:41] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:41] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:29:46] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:29:49] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:51] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:29:57] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:29:57] GET http://detectportal.firefox.com/success.txt?ipv4 HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+[2024-12-31 13:29:57] GET http://detectportal.firefox.com/success.txt?ipv6 HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+[2024-12-31 13:29:57] POST http://r10.o.lencr.org/ HTTP/1.1
+Host: r10.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:29:58] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:29:58] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:29:58] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:29:58] POST http://ocsp.digicert.com/ HTTP/1.1
+Host: ocsp.digicert.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 83
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0Q0O0M0K0I0	+
+[2024-12-31 13:29:59] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:29:59] POST http://r10.o.lencr.org/ HTTP/1.1
+Host: r10.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:29:59] POST http://r11.o.lencr.org/ HTTP/1.1
+Host: r11.o.lencr.org
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Content-Type: application/ocsp-request
+Content-Length: 85
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+0S0Q0O0M0K0	+
+[2024-12-31 13:30:00] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:30:00] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:30:00] CONNECT wiki.mta.ro:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: wiki.mta.ro:443
+
+
+[2024-12-31 13:30:04] CONNECT push.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: push.services.mozilla.com:443
+
+
+[2024-12-31 13:30:06] 
+[2024-12-31 13:30:13] CONNECT firefox.settings.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: firefox.settings.services.mozilla.com:443
+
+
+[2024-12-31 13:30:18] 
+[2024-12-31 13:30:43] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:30:43] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:30:48] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:30:53] CONNECT github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.com:443
+
+
+[2024-12-31 13:30:53] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:30:58] GET http://detectportal.firefox.com/canonical.html HTTP/1.1
+Host: detectportal.firefox.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate
+Cache-Control: no-cache
+Pragma: no-cache
+Connection: keep-alive
+
+
+[2024-12-31 13:31:16] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:31:16] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:31:17] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:31:18] CONNECT github.githubassets.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: github.githubassets.com:443
+
+
+[2024-12-31 13:31:18] CONNECT collector.github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: collector.github.com:443
+
+
+[2024-12-31 13:31:19] CONNECT api.github.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: api.github.com:443
+
+
+[2024-12-31 13:31:19] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:31:19] CONNECT avatars.githubusercontent.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: avatars.githubusercontent.com:443
+
+
+[2024-12-31 13:31:26] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:31:37] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:31:47] CONNECT aus5.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: aus5.mozilla.org:443
+
+
+[2024-12-31 13:34:24] CONNECT www.vmware.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: www.vmware.com:443
+
+
+[2024-12-31 13:34:24] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:34:37] CONNECT contile.services.mozilla.com:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: contile.services.mozilla.com:443
+
+
+[2024-12-31 13:36:36] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
+
+
+[2024-12-31 13:36:37] CONNECT incoming.telemetry.mozilla.org:443 HTTP/1.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:121.0) Gecko/20100101 Firefox/121.0
+Proxy-Connection: keep-alive
+Connection: keep-alive
+Host: incoming.telemetry.mozilla.org:443
 
 

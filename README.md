@@ -6,24 +6,16 @@ specific assets required to render a website correctly.
 
 ## Table of Contents
 
-- [HTTP Proxy App (Proxy Eye)](#http-proxy-app-proxy-eye)
-
+- [HTTPS Proxy App (Proxy Eye)](#https-proxy-app-proxy-eye)
   - [Table of Contents](#table-of-contents)
   - [What is an open proxy server?](#what-is-an-open-proxy-server)
   - [Project Construction Diagram](#project-construction-diagram)
   - [Proxy Server Functionalities](#proxy-server-functionalities)
     - [Internal functionalities](#internal-functionalities)
-  - [OS Applied Concepts](#os-applied-concepts)
+    - [OS Applied Concepts](#os-applied-concepts)
   - [GUI Functionalities](#gui-functionalities)
   - [Usage](#usage)
   - [Contributors](#contributors)
-
-- [What is an open proxy server?](#project_overview)
-- [Project Construction Diagram](#project_construction)
-- [Proxy Server Functionalities](#server_app)
-- [GUI Functionalities](#gui_app)
-- [Usage](#run_app)
-- [Contributors](#contributors)
 
 ## What is an open proxy server?
 
@@ -38,7 +30,7 @@ their pure form, alongside all its specifications.
 
 ## Project Construction Diagram
 
-![Proxy Server Connections](Images/Proxy%20Diagram.jpg)
+![Proxy Server Connections](Images/httpsProxyDiagram.png)
 
 ## Proxy Server Functionalities
 
@@ -198,4 +190,4 @@ For running the app, just tap the command: make run
 
 ## Contributors
 
-This project was completed by Lepadatu Tudor and Forminte Andreea, under the guidance of Vamand Adina.
+This project was completed by Lepadatu Tudor and Forminte Andreea, under the guidance of Vaman Adina.
