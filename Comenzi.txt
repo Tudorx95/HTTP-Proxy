@@ -1,0 +1,26 @@
+
+Inainte de rulare se configureaza Browserul cu adresa IP de loopback (127.0.0.1), cu portul 8888.
+
+Comenzile de compilare si rulare:
+make -B my_program
+make run
+
+Din interfata grafica se apasa Intercept Off pentru a activa serverul proxy. 
+Din Browser se initiaza o cerere.
+Intorcandu-ne in aplicatia noastra, se pot identifica requesturile. 
+Selectand una dintre ele, putem realiza urmatoarele:
+- o putem redirectiona in retea apasand Forward
+- o putem sterge apasand Drop
+- ii putem modifica payloadul din campul Full Message si o putem redirectiona in retea 
+    (Pentru a vedea ca cererea se trimite cu payloadul modificat, se poate vedea in terminalul 
+    aplicatiei cererea modificata inainte de trimitere)
+
+Pentru a vizualiza istoricul se poate selecta butonul History din primul meniu al aplicatiei. 
+
+
+Insuficiente:
+- conexiunile HTTP nu sunt redirectionate corect, insa cele HTTPS functioneaza corect 
+- exista unele probleme de blocare a butoanelor din considerentul GUI. Pentru a debloca 
+butoanele trebuie sa intram in browser si sa dam click in browser pe orice. 
+- In directorul ThreadPull este structura proiectului integrand ThreadPool.
+
